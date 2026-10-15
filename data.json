@@ -1,0 +1,1032 @@
+{
+  "users": [
+    {
+      "id": "mqav268tfibv",
+      "name": "Admin",
+      "username": "admin",
+      "role": "admin",
+      "password": "6G94qKPK8LYNjnTllCqm2G3BUM08AzOK7yW30tfjrMc=",
+      "createdAt": "2026-05-13"
+    },
+    {
+      "id": "mqav268vk425",
+      "name": "Jean Baptiste",
+      "username": "headteacher",
+      "role": "head_teacher",
+      "password": "0EHD08pO1kxbVMXYB72aC9LWrjYJ7NLQasOD20STYOE=",
+      "createdAt": "2026-05-13"
+    },
+    {
+      "id": "mqav268vb113",
+      "name": "Alice Mukamana",
+      "username": "welfare",
+      "role": "welfare_prefect",
+      "password": "tttvacec8MlUThKNkIiDZfSpy/tXhUayj2JN/8ebpJ0=",
+      "createdAt": "2026-05-15"
+    },
+    {
+      "id": "mqb573w69m69",
+      "name": "tue",
+      "username": "tue12",
+      "role": "storekeeper",
+      "password": "f56e6cb273aea1e03b01b06353e0c801dab1468a2b2044335eaeb5df3ac45950",
+      "createdAt": "2026-06-12T16:30:08.514Z"
+    }
+  ],
+  "consumables": [
+    {
+      "id": "mqav268vt85o",
+      "name": "A4 Paper",
+      "code": "ST-001",
+      "category": "Stationery",
+      "qty": 85,
+      "min": 20,
+      "unitCost": 12000,
+      "location": "Store Rack A",
+      "notes": "Boxes of 500 sheets",
+      "createdAt": "2026-04-13",
+      "updatedAt": "2026-06-10"
+    },
+    {
+      "id": "mqav268v08w6",
+      "name": "Blue Pens",
+      "code": "ST-002",
+      "category": "Stationery",
+      "qty": 240,
+      "min": 50,
+      "unitCost": 500,
+      "location": "Store Rack A",
+      "notes": "Box of 12",
+      "createdAt": "2026-04-13",
+      "updatedAt": "2026-06-07"
+    },
+    {
+      "id": "mqav268v3y6z",
+      "name": "Whiteboard Markers",
+      "code": "ST-003",
+      "category": "Stationery",
+      "qty": 30,
+      "min": 15,
+      "unitCost": 1500,
+      "location": "Store Rack A",
+      "notes": "Assorted colours",
+      "createdAt": "2026-04-28",
+      "updatedAt": "2026-06-09"
+    },
+    {
+      "id": "mqav268vohcq",
+      "name": "Brooms",
+      "code": "CL-001",
+      "category": "Cleaning",
+      "qty": 25,
+      "min": 10,
+      "unitCost": 2000,
+      "location": "Store Rack B",
+      "notes": "Local handmade",
+      "createdAt": "2026-03-14",
+      "updatedAt": "2026-06-02"
+    },
+    {
+      "id": "mqav268vqym7",
+      "name": "Detergent (Liquid)",
+      "code": "CL-002",
+      "category": "Cleaning",
+      "qty": 45,
+      "min": 10,
+      "unitCost": 8500,
+      "location": "Store Rack B",
+      "notes": "20L jerrycans",
+      "createdAt": "2026-05-13",
+      "updatedAt": "2026-06-11"
+    },
+    {
+      "id": "mqav268vv428",
+      "name": "Chalk (White)",
+      "code": "ST-004",
+      "category": "Stationery",
+      "qty": 12,
+      "min": 20,
+      "unitCost": 3000,
+      "location": "Store Rack A",
+      "notes": "Boxes of 100",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-06-05"
+    },
+    {
+      "id": "mqav268v9snt",
+      "name": "Glue Sticks",
+      "code": "ST-005",
+      "category": "Stationery",
+      "qty": 60,
+      "min": 15,
+      "unitCost": 800,
+      "location": "Store Rack A",
+      "notes": "",
+      "createdAt": "2026-04-23",
+      "updatedAt": "2026-05-28"
+    },
+    {
+      "id": "mqav268v5p5e",
+      "name": "Light Bulbs (LED)",
+      "code": "EL-001",
+      "category": "Electrical",
+      "qty": 18,
+      "min": 10,
+      "unitCost": 3500,
+      "location": "Store Rack C",
+      "notes": "9W LED",
+      "createdAt": "2026-05-03",
+      "updatedAt": "2026-06-04"
+    },
+    {
+      "id": "mqav268v1i22",
+      "name": "Batteries (AA)",
+      "code": "EL-002",
+      "category": "Electrical",
+      "qty": 48,
+      "min": 20,
+      "unitCost": 1500,
+      "location": "Store Rack C",
+      "notes": "Pack of 4",
+      "createdAt": "2026-05-08",
+      "updatedAt": "2026-06-06"
+    },
+    {
+      "id": "mqav268vo7i1",
+      "name": "Exercise Books",
+      "code": "ST-006",
+      "category": "Stationery",
+      "qty": 320,
+      "min": 100,
+      "unitCost": 1200,
+      "location": "Store Rack A",
+      "notes": "200-page counter books",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-06-08"
+    }
+  ],
+  "borrows": [
+    {
+      "id": "mqav268vw73w",
+      "itemId": null,
+      "itemName": "Projector",
+      "person": "Mr. Habimana",
+      "dept": "Science Dept",
+      "qty": 1,
+      "purpose": "Science week presentation",
+      "expectedReturn": "2026-06-15",
+      "condition": "Good",
+      "notes": "",
+      "borrowedAt": "2026-06-07",
+      "returnedAt": null,
+      "status": "active"
+    },
+    {
+      "id": "mqav268vpmgk",
+      "itemId": null,
+      "itemName": "Camera",
+      "person": "Ms. Uwimana",
+      "dept": "Media Club",
+      "qty": 1,
+      "purpose": "Sports day coverage",
+      "expectedReturn": "2026-06-13",
+      "condition": "Good",
+      "notes": "",
+      "borrowedAt": "2026-06-09",
+      "returnedAt": null,
+      "status": "active"
+    }
+  ],
+  "foodItems": [
+    {
+      "id": "mqav268wtcu2",
+      "name": "Maize Flour",
+      "category": "Staples",
+      "qty": 500,
+      "unit": "kg",
+      "min": 100,
+      "unitCost": 1200,
+      "expiryDate": "2026-08-11",
+      "location": "Granary A",
+      "supplier": "",
+      "code": "GR-001",
+      "notes": "Grade 1 fortified",
+      "createdAt": "2026-05-28",
+      "updatedAt": "2026-06-11"
+    },
+    {
+      "id": "mqav268wrau9",
+      "name": "Beans",
+      "category": "Legumes",
+      "qty": 200,
+      "unit": "kg",
+      "min": 50,
+      "unitCost": 1800,
+      "expiryDate": "2026-09-10",
+      "location": "Granary A",
+      "supplier": "",
+      "code": "GR-002",
+      "notes": "Red beans",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-06-10"
+    },
+    {
+      "id": "mqav268wmd4p",
+      "name": "Rice",
+      "category": "Staples",
+      "qty": 150,
+      "unit": "kg",
+      "min": 40,
+      "unitCost": 2200,
+      "expiryDate": "2026-10-10",
+      "location": "Granary A",
+      "supplier": "",
+      "code": "GR-003",
+      "notes": "Premium long grain",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-06-09"
+    },
+    {
+      "id": "mqav268wiaie",
+      "name": "Cooking Oil",
+      "category": "Cooking Essentials",
+      "qty": 80,
+      "unit": "L",
+      "min": 20,
+      "unitCost": 4500,
+      "expiryDate": "2026-12-09",
+      "location": "Granary B",
+      "supplier": "",
+      "code": "GR-004",
+      "notes": "Fortified vegetable oil",
+      "createdAt": "2026-05-13",
+      "updatedAt": "2026-06-11"
+    },
+    {
+      "id": "mqav268wrvvi",
+      "name": "Sugar",
+      "category": "Cooking Essentials",
+      "qty": 60,
+      "unit": "kg",
+      "min": 15,
+      "unitCost": 2800,
+      "expiryDate": "2027-06-12",
+      "location": "Granary B",
+      "supplier": "",
+      "code": "GR-005",
+      "notes": "White sugar",
+      "createdAt": "2026-06-02",
+      "updatedAt": "2026-06-07"
+    },
+    {
+      "id": "mqav268wnu62",
+      "name": "Salt",
+      "category": "Cooking Essentials",
+      "qty": 30,
+      "unit": "kg",
+      "min": 10,
+      "unitCost": 500,
+      "expiryDate": "",
+      "location": "Granary B",
+      "supplier": "",
+      "code": "GR-006",
+      "notes": "Iodized salt",
+      "createdAt": "2026-05-03",
+      "updatedAt": "2026-06-02"
+    },
+    {
+      "id": "mqav268w7g8h",
+      "name": "Fresh Milk",
+      "category": "Dairy",
+      "qty": 50,
+      "unit": "L",
+      "min": 20,
+      "unitCost": 1500,
+      "expiryDate": "2026-06-19",
+      "location": "Cold Room",
+      "supplier": "",
+      "code": "DA-001",
+      "notes": "From school farm",
+      "createdAt": "2026-06-10",
+      "updatedAt": "2026-06-11"
+    },
+    {
+      "id": "mqav268wtlfw",
+      "name": "Irish Potatoes",
+      "category": "Vegetables",
+      "qty": 180,
+      "unit": "kg",
+      "min": 30,
+      "unitCost": 900,
+      "expiryDate": "2026-06-26",
+      "location": "Granary A",
+      "supplier": "",
+      "code": "VG-001",
+      "notes": "Fresh harvest",
+      "createdAt": "2026-06-07",
+      "updatedAt": "2026-06-10"
+    }
+  ],
+  "deliveries": [
+    {
+      "id": "mqav268w9c9w",
+      "deliveryNo": "DEL-001",
+      "foodId": null,
+      "foodName": "Maize Flour",
+      "qty": 500,
+      "supplier": "Rwanda Food Distributors Ltd",
+      "receivedBy": "Admin",
+      "date": "2026-05-28",
+      "notes": "Monthly supply",
+      "unitCost": 1150,
+      "totalCost": 575000,
+      "createdAt": "2026-05-28"
+    },
+    {
+      "id": "mqav268w8ics",
+      "deliveryNo": "DEL-002",
+      "foodId": null,
+      "foodName": "Cooking Oil",
+      "qty": 80,
+      "supplier": "Rwanda Food Distributors Ltd",
+      "receivedBy": "Admin",
+      "date": "2026-06-02",
+      "notes": "",
+      "unitCost": 4300,
+      "totalCost": 344000,
+      "createdAt": "2026-06-02"
+    },
+    {
+      "id": "mqav268wgp28",
+      "deliveryNo": "DEL-003",
+      "foodId": null,
+      "foodName": "Beans",
+      "qty": 200,
+      "supplier": "Huye Farmers Cooperative",
+      "receivedBy": "Jean Baptiste",
+      "date": "2026-06-05",
+      "notes": "New harvest",
+      "unitCost": 1700,
+      "totalCost": 340000,
+      "createdAt": "2026-06-05"
+    }
+  ],
+  "issues": [
+    {
+      "id": "mqav268wmx0k",
+      "deliveryNo": "ISS-001",
+      "foodId": null,
+      "foodName": "Maize Flour",
+      "qty": 80,
+      "dept": "Kitchen",
+      "issuedTo": "Head Cook",
+      "date": "2026-06-09",
+      "notes": "Weekly allocation",
+      "createdAt": "2026-06-09"
+    },
+    {
+      "id": "mqav268wlx50",
+      "deliveryNo": "ISS-002",
+      "foodId": null,
+      "foodName": "Beans",
+      "qty": 30,
+      "dept": "Kitchen",
+      "issuedTo": "Head Cook",
+      "date": "2026-06-09",
+      "notes": "",
+      "createdAt": "2026-06-09"
+    },
+    {
+      "id": "mqav268ww55e",
+      "deliveryNo": "ISS-003",
+      "foodId": null,
+      "foodName": "Cooking Oil",
+      "qty": 10,
+      "dept": "Kitchen",
+      "issuedTo": "Head Cook",
+      "date": "2026-06-10",
+      "notes": "",
+      "createdAt": "2026-06-10"
+    },
+    {
+      "id": "mqav268w14dt",
+      "deliveryNo": "ISS-004",
+      "foodId": null,
+      "foodName": "Rice",
+      "qty": 20,
+      "dept": "Kitchen",
+      "issuedTo": "Head Cook",
+      "date": "2026-06-11",
+      "notes": "Special lunch",
+      "createdAt": "2026-06-11"
+    }
+  ],
+  "consumption": [
+    {
+      "id": "mqav268w5ewp",
+      "foodId": null,
+      "foodName": "Maize Flour",
+      "qty": 75,
+      "meal": "Breakfast",
+      "date": "2026-06-12",
+      "notes": "",
+      "createdAt": "2026-06-12T11:46:22.112Z"
+    },
+    {
+      "id": "mqav268w02or",
+      "foodId": null,
+      "foodName": "Beans",
+      "qty": 25,
+      "meal": "Lunch",
+      "date": "2026-06-12",
+      "notes": "",
+      "createdAt": "2026-06-12T11:46:22.112Z"
+    },
+    {
+      "id": "mqav268wrmpt",
+      "foodId": null,
+      "foodName": "Cooking Oil",
+      "qty": 5,
+      "meal": "Lunch",
+      "date": "2026-06-12",
+      "notes": "",
+      "createdAt": "2026-06-12T11:46:22.112Z"
+    },
+    {
+      "id": "mqav268wf01o",
+      "foodId": null,
+      "foodName": "Maize Flour",
+      "qty": 70,
+      "meal": "Dinner",
+      "date": "2026-06-11",
+      "notes": "",
+      "createdAt": "2026-06-11"
+    },
+    {
+      "id": "mqav268wn8lm",
+      "foodId": null,
+      "foodName": "Rice",
+      "qty": 18,
+      "meal": "Lunch",
+      "date": "2026-06-11",
+      "notes": "",
+      "createdAt": "2026-06-11"
+    },
+    {
+      "id": "mqav268wk1dj",
+      "foodId": null,
+      "foodName": "Irish Potatoes",
+      "qty": 40,
+      "meal": "Dinner",
+      "date": "2026-06-10",
+      "notes": "",
+      "createdAt": "2026-06-10"
+    },
+    {
+      "id": "mqav268wis6b",
+      "foodId": null,
+      "foodName": "Beans",
+      "qty": 20,
+      "meal": "Lunch",
+      "date": "2026-06-10",
+      "notes": "",
+      "createdAt": "2026-06-10"
+    }
+  ],
+  "equipment": [
+    {
+      "id": "mqav268wdzce",
+      "name": "Dinner Plates",
+      "category": "Plates",
+      "qty": 200,
+      "min": 50,
+      "condition": "Good",
+      "status": "Available",
+      "unitCost": 2500,
+      "location": "Main Rack A1",
+      "purchaseDate": "2027-06-12",
+      "lifespan": 5,
+      "notes": "White ceramic",
+      "createdAt": "2027-06-12",
+      "updatedAt": "2026-05-13"
+    },
+    {
+      "id": "mqav268wvvrq",
+      "name": "Soup Bowls",
+      "category": "Bowls",
+      "qty": 120,
+      "min": 30,
+      "condition": "Good",
+      "status": "Available",
+      "unitCost": 2000,
+      "location": "Main Rack A2",
+      "purchaseDate": "2027-06-12",
+      "lifespan": 4,
+      "notes": "",
+      "createdAt": "2027-06-12",
+      "updatedAt": "2026-05-13"
+    },
+    {
+      "id": "mqav268w6ffe",
+      "name": "Serving Trays",
+      "category": "Serving",
+      "qty": 40,
+      "min": 10,
+      "condition": "Good",
+      "status": "Available",
+      "unitCost": 5000,
+      "location": "Main Rack B1",
+      "purchaseDate": "2026-12-09",
+      "lifespan": 3,
+      "notes": "Stainless steel",
+      "createdAt": "2026-12-09",
+      "updatedAt": "2026-05-23"
+    },
+    {
+      "id": "mqav268wnfnr",
+      "name": "Cooking Pots (Large)",
+      "category": "Cookware",
+      "qty": 8,
+      "min": 4,
+      "condition": "Good",
+      "status": "Available",
+      "unitCost": 35000,
+      "location": "Kitchen Store",
+      "purchaseDate": "2028-06-11",
+      "lifespan": 10,
+      "notes": "Aluminium, 100L",
+      "createdAt": "2028-06-11",
+      "updatedAt": "2026-05-28"
+    },
+    {
+      "id": "mqav268wg07v",
+      "name": "Water Dispensers",
+      "category": "Serving",
+      "qty": 6,
+      "min": 3,
+      "condition": "Fair",
+      "status": "Available",
+      "unitCost": 45000,
+      "location": "Dining Hall",
+      "purchaseDate": "2026-12-09",
+      "lifespan": 3,
+      "notes": "Electric coolers",
+      "createdAt": "2026-12-09",
+      "updatedAt": "2026-06-07"
+    }
+  ],
+  "damages": [
+    {
+      "id": "mqav268wkkx5",
+      "itemName": "Dinner Plates",
+      "category": "Plates",
+      "qty": 12,
+      "type": "Broken",
+      "date": "2026-06-07",
+      "reportedBy": "Admin",
+      "notes": "Accidental breakage during cleaning",
+      "status": "Resolved",
+      "createdAt": "2026-06-07"
+    },
+    {
+      "id": "mqav268wom5g",
+      "itemName": "Soup Bowls",
+      "category": "Bowls",
+      "qty": 5,
+      "type": "Broken",
+      "date": "2026-06-09",
+      "reportedBy": "Head Cook",
+      "notes": "Cracked during use",
+      "status": "Pending",
+      "createdAt": "2026-06-09"
+    }
+  ],
+  "suppliers": [
+    {
+      "id": "mqav268wwr7g",
+      "name": "Rwanda Food Distributors Ltd",
+      "contactPerson": "Jean Pierre",
+      "phone": "0788123456",
+      "email": "info@rwfood.rw",
+      "products": "Cereals, Legumes, Cooking Oil",
+      "address": "Kigali, Rwanda",
+      "notes": "National supplier",
+      "createdAt": "2027-06-12",
+      "updatedAt": "2026-06-02"
+    },
+    {
+      "id": "mqav268wcmqh",
+      "name": "Huye Farmers Cooperative",
+      "contactPerson": "Patrick Habimana",
+      "phone": "0788345678",
+      "email": "sales@huyefarm.rw",
+      "products": "Vegetables, Fruits, Dairy",
+      "address": "Huye, Rwanda",
+      "notes": "Local cooperative",
+      "createdAt": "2026-12-09",
+      "updatedAt": "2026-05-28"
+    }
+  ],
+  "activities": [
+    {
+      "id": "mqb5umgepkbf",
+      "timestamp": "2026-06-12T16:48:25.647Z",
+      "userId": "mqb573w69m69",
+      "userName": "tue",
+      "action": "Logout",
+      "category": "auth",
+      "details": "tue logged out"
+    },
+    {
+      "id": "mqb57d4t3gim",
+      "timestamp": "2026-06-12T16:30:20.477Z",
+      "userId": "mqb573w69m69",
+      "userName": "tue",
+      "action": "Login",
+      "category": "auth",
+      "details": "tue logged in"
+    },
+    {
+      "id": "mqb573wj1m5s",
+      "timestamp": "2026-06-12T16:30:08.515Z",
+      "userId": "system",
+      "userName": "System",
+      "action": "Registered user: tue (storekeeper)",
+      "category": "auth",
+      "details": "New account created"
+    },
+    {
+      "id": "mqav268wh78y",
+      "timestamp": "2026-05-13",
+      "userId": "system",
+      "userName": "System",
+      "action": "System initialized",
+      "category": "system",
+      "details": "MMMS first launch"
+    },
+    {
+      "id": "mqav268w788d",
+      "timestamp": "2026-05-15",
+      "userId": "admin",
+      "userName": "Admin",
+      "action": "Login",
+      "category": "auth",
+      "details": "Admin logged in"
+    },
+    {
+      "id": "mqav268w3l6h",
+      "timestamp": "2026-05-28",
+      "userId": "admin",
+      "userName": "Admin",
+      "action": "Added food item: Maize Flour",
+      "category": "food",
+      "details": "New food item created"
+    },
+    {
+      "id": "mqav268wh7qa",
+      "timestamp": "2026-06-02",
+      "userId": "admin",
+      "userName": "Admin",
+      "action": "Food delivery received: Cooking Oil x80",
+      "category": "food",
+      "details": "Delivery #DEL-002"
+    },
+    {
+      "id": "mqav268weyv9",
+      "timestamp": "2026-06-07",
+      "userId": "admin",
+      "userName": "Admin",
+      "action": "Added welfare record: Marie Claire (Sick Bay)",
+      "category": "welfare",
+      "details": "New record"
+    },
+    {
+      "id": "mqav268wtrtq",
+      "timestamp": "2026-06-09",
+      "userId": "admin",
+      "userName": "Admin",
+      "action": "Login",
+      "category": "auth",
+      "details": "Admin logged in"
+    },
+    {
+      "id": "mqav268wkbav",
+      "timestamp": "2026-06-12",
+      "userId": "admin",
+      "userName": "Admin",
+      "action": "Created breakfast plan",
+      "category": "food",
+      "details": "Breakfast plan updated"
+    }
+  ],
+  "auditTrail": [
+    {
+      "id": "mqb5umgfl9hr",
+      "timestamp": "2026-06-12T16:48:25.647Z",
+      "userId": "mqb573w69m69",
+      "userName": "tue",
+      "userRole": "storekeeper",
+      "action": "Logout",
+      "itemType": "auth",
+      "itemId": null,
+      "details": "tue logged out"
+    },
+    {
+      "id": "mqb57d4t9nle",
+      "timestamp": "2026-06-12T16:30:20.477Z",
+      "userId": "mqb573w69m69",
+      "userName": "tue",
+      "userRole": "storekeeper",
+      "action": "Login",
+      "itemType": "auth",
+      "itemId": null,
+      "details": "tue logged in"
+    },
+    {
+      "id": "mqb573wj2lbk",
+      "timestamp": "2026-06-12T16:30:08.515Z",
+      "userId": "system",
+      "userName": "System",
+      "userRole": "system",
+      "action": "Registered user: tue (storekeeper)",
+      "itemType": "auth",
+      "itemId": null,
+      "details": "New account created"
+    },
+    {
+      "id": "mqb56g32m6gl",
+      "timestamp": "2026-06-12T16:29:37.646Z",
+      "userId": "system",
+      "userName": "System",
+      "userRole": "system",
+      "action": "Failed login",
+      "itemType": "auth",
+      "itemId": null,
+      "details": "Username: Admin — not found"
+    },
+    {
+      "id": "mqav268w17ws",
+      "timestamp": "2026-05-13",
+      "userId": "admin",
+      "userName": "Admin",
+      "userRole": "admin",
+      "action": "System initialized",
+      "itemType": "system",
+      "itemId": null,
+      "details": "MMMS first launch"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "mqb58zy742vf",
+      "timestamp": "2026-06-12T16:31:36.703Z",
+      "type": "warning",
+      "title": "Overdue Return",
+      "message": "Grace Mukamana was expected to return on 6/9/2026",
+      "read": false
+    },
+    {
+      "id": "mqb58zy7nvaq",
+      "timestamp": "2026-06-12T16:31:36.703Z",
+      "type": "warning",
+      "title": "Overdue Return",
+      "message": "Jean Paul was expected to return on 6/5/2026",
+      "read": false
+    },
+    {
+      "id": "mqb57ikfloff",
+      "timestamp": "2026-06-12T16:30:27.519Z",
+      "type": "warning",
+      "title": "Overdue Return",
+      "message": "Grace Mukamana was expected to return on 6/9/2026",
+      "read": false
+    },
+    {
+      "id": "mqb57ikfmufd",
+      "timestamp": "2026-06-12T16:30:27.519Z",
+      "type": "warning",
+      "title": "Overdue Return",
+      "message": "Jean Paul was expected to return on 6/5/2026",
+      "read": false
+    },
+    {
+      "id": "mqb57fy9pm5m",
+      "timestamp": "2026-06-12T16:30:24.129Z",
+      "type": "warning",
+      "title": "Overdue Return",
+      "message": "Grace Mukamana was expected to return on 6/9/2026",
+      "read": false
+    },
+    {
+      "id": "mqb57fy9hsuk",
+      "timestamp": "2026-06-12T16:30:24.129Z",
+      "type": "warning",
+      "title": "Overdue Return",
+      "message": "Jean Paul was expected to return on 6/5/2026",
+      "read": false
+    },
+    {
+      "id": "mqav268wlhlw",
+      "timestamp": "2026-06-11",
+      "type": "warning",
+      "title": "Overdue Return",
+      "message": "Mr. Habimana was expected to return Projector",
+      "read": false
+    },
+    {
+      "id": "mqav268wmrl9",
+      "timestamp": "2026-06-07",
+      "type": "info",
+      "title": "Item Borrowed",
+      "message": "Ms. Uwimana borrowed Camera",
+      "read": false
+    },
+    {
+      "id": "mqav268w1wek",
+      "timestamp": "2026-06-09",
+      "type": "info",
+      "title": "Food Received",
+      "message": "Beans x200 received",
+      "read": true
+    }
+  ],
+  "breakfastSettings": {
+    "breadPrice": 600,
+    "cakePrice": 400,
+    "breadUnit": "Loaf",
+    "cakeUnit": "Piece",
+    "breadSource": "Mubiligi Bakery",
+    "cakeSource": "School Kitchen",
+    "stockDate": "2026-06-11",
+    "breadsReceived": 400,
+    "cakesReceived": 120,
+    "breadsConsumed": 380,
+    "cakesConsumed": 95,
+    "breadCost": 240000,
+    "cakeCost": 48000
+  },
+  "breakfastPlans": [
+    {
+      "id": "mqav268wvozy",
+      "date": "2026-06-11",
+      "breadAllocation": "boarding",
+      "breadCount": 380,
+      "cakeCount": 100,
+      "breadsReceived": 400,
+      "cakesReceived": 120,
+      "breadCost": 600,
+      "cakeCost": 400,
+      "notes": "Regular day",
+      "createdAt": "2026-06-11"
+    },
+    {
+      "id": "mqav268xcvxu",
+      "date": "2026-06-12",
+      "breadAllocation": "boarding",
+      "breadCount": 370,
+      "cakeCount": 95,
+      "breadsReceived": 380,
+      "cakesReceived": 110,
+      "breadCost": 600,
+      "cakeCost": 400,
+      "notes": "Some students on leave",
+      "createdAt": "2026-06-12"
+    }
+  ],
+  "agasekeRecords": [
+    {
+      "id": "mqav268xs2fy",
+      "date": "2026-06-09",
+      "studentsPresent": 450,
+      "qtyPerStudent": 1,
+      "stockReceived": 500,
+      "stockDistributed": 450,
+      "products": {
+        "fermented_milk": {
+          "dispensed": 450,
+          "remaining": 50
+        },
+        "eggs": {
+          "dispensed": 450,
+          "remaining": 50
+        },
+        "yellow_bananas": {
+          "dispensed": 900,
+          "remaining": 100
+        }
+      },
+      "notes": "All students present",
+      "createdAt": "2026-06-09"
+    },
+    {
+      "id": "mqav268xr1sp",
+      "date": "2026-06-11",
+      "studentsPresent": 420,
+      "qtyPerStudent": 1,
+      "stockReceived": 450,
+      "stockDistributed": 420,
+      "products": {
+        "fermented_milk": {
+          "dispensed": 420,
+          "remaining": 30
+        },
+        "eggs": {
+          "dispensed": 420,
+          "remaining": 30
+        },
+        "yellow_bananas": {
+          "dispensed": 840,
+          "remaining": 60
+        }
+      },
+      "notes": "Some absent",
+      "createdAt": "2026-06-11"
+    }
+  ],
+  "agasekeProducts": {
+    "fermented_milk": {
+      "name": "Fermented Milk",
+      "defaultQty": 1,
+      "unit": "Litre"
+    },
+    "eggs": {
+      "name": "Eggs",
+      "defaultQty": 1,
+      "unit": "Piece"
+    },
+    "yellow_bananas": {
+      "name": "Yellow Bananas",
+      "defaultQty": 2,
+      "unit": "Piece"
+    }
+  },
+  "welfareRecords": [
+    {
+      "id": "mqav268x3uf1",
+      "studentName": "Marie Claire",
+      "studentId": "STU-0234",
+      "class": "S4A",
+      "dormitory": "St. Mary",
+      "date": "2026-06-07",
+      "status": "Sick Bay",
+      "expectedReturn": "2026-06-14",
+      "reason": "Malaria",
+      "notes": "On medication",
+      "createdAt": "2026-06-07"
+    },
+    {
+      "id": "mqav268x87er",
+      "studentName": "Jean Paul",
+      "studentId": "STU-0456",
+      "class": "S3B",
+      "dormitory": "St. Joseph",
+      "date": "2026-06-09",
+      "status": "Sent Home",
+      "expectedReturn": "2026-06-05",
+      "reason": "Family emergency",
+      "notes": "Father contacted",
+      "createdAt": "2026-06-09"
+    },
+    {
+      "id": "mqav268xt6ju",
+      "studentName": "Alice Uwimana",
+      "studentId": "STU-0789",
+      "class": "S5A",
+      "dormitory": "St. Claire",
+      "date": "2026-06-02",
+      "status": "Returned to School",
+      "expectedReturn": "2026-06-17",
+      "reason": "Medical appointment",
+      "notes": "Returned with doctors note",
+      "createdAt": "2026-06-02",
+      "returnedAt": "2026-06-17"
+    },
+    {
+      "id": "mqav268x0tf4",
+      "studentName": "David Habineza",
+      "studentId": "STU-0123",
+      "class": "S2A",
+      "dormitory": "St. John",
+      "date": "2026-06-11",
+      "status": "Sick in Dormitory",
+      "expectedReturn": "",
+      "reason": "Flu symptoms",
+      "notes": "School nurse attending",
+      "createdAt": "2026-06-11"
+    },
+    {
+      "id": "mqav268xv4qc",
+      "studentName": "Grace Mukamana",
+      "studentId": "STU-0567",
+      "class": "S6B",
+      "dormitory": "St. Anne",
+      "date": "2026-06-05",
+      "status": "Hospitalized",
+      "expectedReturn": "2026-06-09",
+      "reason": "Severe headache",
+      "notes": "Referred to district hospital",
+      "createdAt": "2026-06-05"
+    }
+  ],
+  "theme": "dark"
+}

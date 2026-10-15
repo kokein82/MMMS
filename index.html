@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'; connect-src 'self'"/>
+<title>MMMS – Mubiligi Multipurpose Management System</title>
+<link rel="preload" href="image.png" as="image" fetchpriority="high"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all';this.onload=null"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/></noscript>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- TOAST -->
+<div id="toastContainer" class="toast-wrap"></div>
+<!-- MODAL BACKDROP -->
+<div id="modalBackdrop" class="modal-backdrop" onclick="closeActiveModal()"></div>
+<!-- CONFIRM -->
+<div id="confirmDialog" class="modal modal-sm">
+  <div class="modal-hd"><h3 id="confirmTitle">Confirm</h3><button class="mx" onclick="closeConfirm()">✕</button></div>
+  <div class="modal-bd"><p id="confirmMsg" style="opacity:.8;line-height:1.6"></p></div>
+  <div class="modal-ft">
+    <button class="btn btn-ghost" onclick="closeConfirm()">Cancel</button>
+    <button class="btn btn-danger" id="confirmOk">Confirm</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     AUTH SCREEN
+══════════════════════════════════ -->
+<div id="authScreen" class="auth-screen">
+  <div class="auth-overlay"></div>
+  <div class="auth-container">
+    <div class="auth-glass" id="authCard">
+      <div class="auth-glass-header">
+        <div class="school-emblem">
+            <img src="image.png" class="em-glyph" alt="School Emblem" />
+        </div>
+        <div class="auth-glass-title">
+          <h1 class="school-title">MMMS – Mubiligi Félicien</h1>
+          <p class="school-sub">Catholic Technical Secondary School — Huye, Rwanda</p>
+        </div>
+      </div>
+      <div class="auth-chips">
+        <span>📦 Stock Management</span>
+        <span>🥫 Food Stores</span>
+        <span>🥄 Refectory</span>
+        <span>📊 Reports</span>
+        <span>🏢 Suppliers</span>
+      </div>
+      <div class="auth-divider"></div>
+      <div class="auth-tabs-bar">
+        <button class="atab active" id="tabA" onclick="switchTab('login')">Sign In</button>
+        <button class="atab" id="tabB" onclick="switchTab('register')">Register</button>
+      </div>
+      <!-- LOGIN -->
+      <form id="loginForm" onsubmit="doLogin(event)">
+        <h2 class="aform-title">Welcome back</h2>
+        <p class="naform-sub">Sign in to manage school inventory</p>
+        <div id="loginAlert" class="falert hidden"></div>
+        <div class="fg"><label>Username</label>
+          <div class="fw"><span class="fi">👤</span><input id="liU" placeholder="Your username" autocomplete="username"/></div>
+          <span class="ferr" id="liUe"></span>
+        </div>
+        <div class="fg"><label>Password</label>
+          <div class="fw"><span class="fi">🔒</span><input type="password" id="liP" placeholder="Your password" autocomplete="current-password"/>
+          <button type="button" class="eye" onclick="eyeT('liP',this)">👁</button></div>
+          <span class="ferr" id="liPe"></span>
+        </div>
+        <div class="fg-extra"><a class="fg-link" onclick="alert('Contact admin to reset your password')">Forgot password?</a></div>
+        <button type="submit" class="btn-auth">Sign In →</button>
+        <p class="aswitch">No account? <a onclick="switchTab('register')">Register here</a></p>
+      </form>
+      <!-- REGISTER -->
+      <form id="registerForm" class="hidden" onsubmit="doRegister(event)">
+        <h2 class="aform-title">Create Account</h2>
+        <p class="aform-sub">Register to access the system</p>
+        <div id="regAlert" class="falert hidden"></div>
+        <div class="fg"><label>Full Name</label>
+          <div class="fw"><span class="fi">🪪</span><input id="rnm" placeholder="Full name"/></div>
+          <span class="ferr" id="rnme"></span>
+        </div>
+        <div class="fg"><label>Username</label>
+          <div class="fw"><span class="fi">👤</span><input id="rusr" placeholder="Choose username"/></div>
+          <span class="ferr" id="rusre"></span>
+        </div>
+        <div class="fg"><label>Role</label>
+          <div class="fw"><span class="fi">🏷</span>
+            <select id="rrol">
+              <option value="storekeeper">Storekeeper</option>
+              <option value="bursar">School Bursar</option>
+              <option value="refectory_manager">Refectory Manager</option>
+              <option value="head_teacher">Head Teacher</option>
+              <option value="welfare_prefect">Welfare Prefect</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg"><label>Password</label>
+          <div class="fw"><span class="fi">🔒</span><input type="password" id="rpw" placeholder="Min 8 chars, upper+lower+digit+special"/>
+          <button type="button" class="eye" onclick="eyeT('rpw',this)">👁</button></div>
+          <span class="ferr" id="rpwe"></span>
+        </div>
+        <div class="fg"><label>Confirm Password</label>
+          <div class="fw"><span class="fi">🔐</span><input type="password" id="rcf" placeholder="Repeat password"/>
+          <button type="button" class="eye" onclick="eyeT('rcf',this)">👁</button></div>
+          <span class="ferr" id="rcfe"></span>
+        </div>
+        <button type="submit" class="btn-auth">Create Account →</button>
+        <p class="aswitch">Already registered? <a onclick="switchTab('login')">Sign in</a></p>
+      </form>
+      <div class="auth-footer">© 2026 MMMS – Mubiligi Multipurpose Management System</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     APP SHELL
+══════════════════════════════════ -->
+<div id="appShell" class="app-shell hidden">
+  <div id="sbOverlay" class="sb-overlay" onclick="closeSB()"></div>
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="sidebar">
+    <div class="sb-top">
+      <div class="sb-mark"><img src="image.png" alt="School Logo" loading="lazy"></div>
+      <div class="sb-brand-txt">
+        <strong>MMMS</strong>
+        <span>Mubiligi Multipurpose</span>
+      </div>
+    </div>
+    <nav class="sb-nav">
+      <a class="ni active" data-p="dashboard"    onclick="go('dashboard')"><span>⊞</span>Dashboard</a>
+
+      <div class="ns">Consumables</div>
+      <a class="ni" data-p="c-inv"      onclick="go('c-inv')"><span>📋</span>Inventory</a>
+      <a class="ni" data-p="c-borrow"   onclick="go('c-borrow')"><span>📤</span>Borrow Items</a>
+      <a class="ni" data-p="c-return"   onclick="go('c-return')"><span>📥</span>Return Items</a>
+      <a class="ni" data-p="c-move"     onclick="go('c-move')"><span>🔄</span>Stock Movements</a>
+      <a class="ni" data-p="c-report"   onclick="go('c-report')"><span>📊</span>Reports</a>
+
+      <div class="ns">Food Stores & Refectory</div>
+      <a class="ni" data-p="f-inv"      onclick="go('f-inv')"><span>🥫</span>Food Inventory</a>
+      <a class="ni" data-p="f-receive"  onclick="go('f-receive')"><span>🚚</span>Food Receiving</a>
+      <a class="ni" data-p="f-issue"    onclick="go('f-issue')"><span>🍽</span>Food Issuing</a>
+      <a class="ni" data-p="f-consume"  onclick="go('f-consume')"><span>📅</span>Daily Consumption</a>
+      <a class="ni" data-p="r-equip"    onclick="go('r-equip')"><span>🥄</span>Refectory Equipment</a>
+      <a class="ni" data-p="r-damage"   onclick="go('r-damage')"><span>⚠️</span>Loss & Damage<span class="nbadge" id="nbDam">0</span></a>
+      <a class="ni" data-p="f-expiry"   onclick="go('f-expiry')"><span>⏰</span>Expiry Monitor<span class="nbadge warn" id="nbExp">0</span></a>
+      <a class="ni" data-p="f-move"     onclick="go('f-move')"><span>🔄</span>Stock Movements</a>
+      <a class="ni" data-p="f-report"   onclick="go('f-report')"><span>📊</span>Food Reports</a>
+      <a class="ni" data-p="fast"       onclick="go('fast')"><span>🥖</span>Breakfast Management</a>
+      <a class="ni" data-p="agaseke"    onclick="go('agaseke')"><span>🍌</span>Agaseke Management</a>
+
+      <div class="ns">Suppliers</div>
+      <a class="ni" data-p="s-dir"      onclick="go('s-dir')"><span>🏢</span>Directory</a>
+      <a class="ni" data-p="s-hist"     onclick="go('s-hist')"><span>📜</span>Supplier History</a>
+
+      <div class="ns">Activity Logs</div>
+      <a class="ni" data-p="l-user"     onclick="go('l-user')"><span>🗒</span>User Activities</a>
+      <a class="ni" data-p="l-inv"      onclick="go('l-inv')"><span>📦</span>Inventory Logs</a>
+      <a class="ni" data-p="l-audit"    onclick="go('l-audit')"><span>🔎</span>Audit Trail</a>
+
+      <div class="ns">Student Welfare</div>
+      <a class="ni" data-p="welfare"    onclick="go('welfare')"><span>🏥</span>Welfare Register</a>
+
+      <div class="ns">Notifications</div>
+      <a class="ni" data-p="alerts"     onclick="go('alerts')"><span>🔔</span>Alert Center<span class="nbadge danger" id="nbAlert">0</span></a>
+
+      <div class="ns">System</div>
+      <a class="ni" data-p="settings"   onclick="go('settings')"><span>⚙</span>Settings</a>
+    </nav>
+    <div class="sb-foot">
+      <div class="sb-user">
+        <img src="image.png" class="sb-av" id="sbAv" alt="School Logo" loading="lazy" />
+        <div class="sb-ui">
+          <strong id="sbNm">User</strong>
+          <span id="sbRl">Role</span>
+        </div>
+        <button class="sb-logout" onclick="doLogout()" title="Logout"><span class="sbl-icon">⏻</span><span class="sbl-label">Logout</span></button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-w">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="tb-l">
+        <button class="hamburger" onclick="toggleSB()"><span></span><span></span><span></span></button>
+        <span class="tb-title" id="tbTitle">Dashboard</span>
+      </div>
+      <div class="tb-r">
+        <div class="tb-srch"><span>🔍</span><input id="tbSrch" placeholder="Search inventory…" oninput="gSearch()"/></div>
+        <button class="tb-ico" onclick="go('alerts')" title="Alerts">🔔<span class="tb-dot" id="tbDot">0</span></button>
+        <button class="tb-ico theme-ico" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        <div class="tb-dropdown-wrap">
+          <button class="tb-usr-btn" id="tbUsrBtn" aria-haspopup="true" aria-expanded="false" aria-label="User menu">
+            <img src="image.png" class="tb-av" id="tbAv" alt="School Logo" loading="lazy" />
+            <span class="tb-usr-name" id="tbNm">User</span>
+            <span class="tb-chevron">▾</span>
+          </button>
+          <div class="tb-dropdown" id="tbDropdown" role="menu" aria-label="User menu">
+            <a class="tb-drop-item" href="#" role="menuitem" tabindex="0" data-action="profile"><span class="tdi-icon">👤</span> My Profile</a>
+            <a class="tb-drop-item" href="#" role="menuitem" tabindex="0" data-action="settings"><span class="tdi-icon">⚙️</span> Account Settings</a>
+            <a class="tb-drop-item" href="#" role="menuitem" tabindex="0" data-action="password"><span class="tdi-icon">🔒</span> Change Password</a>
+            <a class="tb-drop-item" href="#" role="menuitem" tabindex="0" data-action="help"><span class="tdi-icon">❓</span> Help &amp; Support</a>
+            <div class="tb-drop-divider"></div>
+            <a class="tb-drop-item tb-drop-danger" href="#" role="menuitem" tabindex="0" data-action="logout"><span class="tdi-icon">🚪</span> Logout</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- PAGE AREA -->
+    <main class="content">
+
+<!-- ━━━━━━━━━━━━━━━━━━ DASHBOARD ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-dashboard" class="pg active">
+  <div class="pg-hero">
+    <div><h1 class="greeting" id="dashGreet">Good morning 👋</h1><p class="gsub" id="dashDate"></p></div>
+    <div class="qactions">
+      <button class="btn btn-primary" onclick="go('c-inv');openCModal()">＋ Add Item</button>
+      <button class="btn btn-secondary" onclick="go('f-receive');openFRecModal()">＋ Receive Food</button>
+      <button class="btn btn-secondary" onclick="go('f-issue');openFIssModal()">Issue Food</button>
+    </div>
+  </div>
+  <div id="dashAlerts"></div>
+  <div class="srow" id="dStat1"></div>
+  <div class="srow" id="dStat2"></div>
+  <div class="srow" id="dStat3"></div>
+  <div class="dash-grid">
+    <div class="panel col2">
+      <div class="ph"><h3>Stock Levels by Category</h3></div>
+      <div class="chart-zone" id="stockChart"></div>
+      <div class="chart-leg" id="stockLeg"></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><h3>Recent Transactions</h3><button class="btn-lnk" onclick="go('c-move')">All →</button></div>
+      <div id="dRecentTxn" class="feed"></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><h3>Recent Activities</h3><button class="btn-lnk" onclick="go('l-user')">All →</button></div>
+      <div id="dRecentAct" class="feed"></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><h3>Low Stock Alerts</h3></div>
+      <div id="dLowStock" class="feed"></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><h3>Expiring Soon</h3><button class="btn-lnk" onclick="go('f-expiry')">All →</button></div>
+      <div id="dExpiring" class="feed"></div>
+    </div>
+    <div class="panel col2">
+      <div class="ph"><h3>🥖 Breakfast Today</h3><button class="btn-lnk" onclick="go('fast')">Manage →</button></div>
+      <div id="dBreakfast" class="feed"><div class="estate" style="padding:20px"><span>🥖</span><h4>No breakfast data</h4></div></div>
+    </div>
+    <div class="panel col2">
+      <div class="ph"><h3>🍌 Agaseke Today</h3><button class="btn-lnk" onclick="go('agaseke')">Manage →</button></div>
+      <div id="dAgaseke" class="feed"><div class="estate" style="padding:20px"><span>🍌</span><h4>No Agaseke data</h4></div></div>
+    </div>
+    <div class="panel col2">
+      <div class="ph"><h3>🏥 Student Welfare Overview</h3><button class="btn-lnk" onclick="go('welfare')">All →</button></div>
+      <div id="dWelfare" class="feed"><div class="estate" style="padding:20px"><span>🏥</span><h4>No welfare data</h4></div></div>
+    </div>
+    <div class="panel col2">
+      <div class="ph"><h3>🍽 Food Planning Today</h3><button class="btn-lnk" onclick="go('fast')">Plan →</button></div>
+      <div id="dFoodPlan" class="feed"><div class="estate" style="padding:20px"><span>🍽</span><h4>No data</h4></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ CONSUMABLES INVENTORY ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-c-inv" class="pg">
+  <div class="pghd">
+    <div><h2 class="pgtitle">Consumables Inventory</h2><p class="pgsub">Manage all school consumable items</p></div>
+    <button class="btn btn-primary" onclick="openCModal()">＋ Add Item</button>
+  </div>
+  <div class="toolbar">
+    <div class="sbox"><span>🔍</span><input id="cInvSr" placeholder="Search…" oninput="debouncedCInv()"/></div>
+    <div class="chips" id="cChips">
+      <button class="chip active" data-v="all" onclick="setCF('all',this)">All</button>
+      <button class="chip" data-v="Stationery" onclick="setCF('Stationery',this)">Stationery</button>
+      <button class="chip" data-v="Office Supplies" onclick="setCF('Office Supplies',this)">Office</button>
+      <button class="chip" data-v="Cleaning" onclick="setCF('Cleaning',this)">Cleaning</button>
+      <button class="chip" data-v="Electrical" onclick="setCF('Electrical',this)">Electrical</button>
+      <button class="chip" data-v="Laboratory" onclick="setCF('Laboratory',this)">Laboratory</button>
+      <button class="chip" data-v="General" onclick="setCF('General',this)">General</button>
+    </div>
+    <select class="sel-sm" id="cStF" onchange="renderCInv()">
+      <option value="all">All Status</option>
+      <option value="available">Available</option>
+      <option value="borrowed">Borrowed</option>
+      <option value="low">Low Stock</option>
+    </select>
+  </div>
+  <div class="tc">
+    <table class="dt"><thead><tr><th>#</th><th>Name</th><th>Category</th><th>Code</th><th>Qty</th><th>Min</th><th>Unit</th><th>Status</th><th>Location</th><th>Actions</th></tr></thead>
+    <tbody id="cInvBd"></tbody></table>
+    <div id="cInvPg" class="pagination-wrap hidden"></div>
+    <div id="cInvEmp" class="estate hidden"><span>📦</span><h4>No items found</h4><p>Add your first consumable item</p></div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ BORROW ITEMS ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-c-borrow" class="pg">
+  <div class="pghd"><div><h2 class="pgtitle">Borrow Items</h2><p class="pgsub">Issue consumables to staff or students</p></div></div>
+  <div class="two-col">
+    <div class="form-card">
+      <h3 class="fct">New Borrow Record</h3>
+      <form id="borrowForm" onsubmit="doBorrow(event)">
+        <div class="fg"><label>Select Item *</label><div class="fw"><span class="fi">📦</span><select id="bItem"></select></div><span class="ferr" id="bItemE"></span></div>
+        <div class="fg"><label>Borrower Name *</label><div class="fw"><span class="fi">👤</span><input id="bPerson" placeholder="Full name"/></div><span class="ferr" id="bPersonE"></span></div>
+        <div class="fg"><label>Class / Department</label><div class="fw"><span class="fi">🏫</span><input id="bDept" placeholder="e.g. S4 CSA, Admin…"/></div></div>
+        <div class="fg"><label>Quantity *</label><div class="fw"><span class="fi">#</span><input type="number" id="bQty" min="1" value="1"/></div><span class="ferr" id="bQtyE"></span></div>
+        <div class="fg"><label>Purpose</label><div class="fw"><span class="fi">📝</span><input id="bPurpose" placeholder="Reason for borrowing…"/></div></div>
+        <div class="fg"><label>Expected Return Date</label><div class="fw"><span class="fi">📅</span><input type="date" id="bRetDate"/></div></div>
+        <div id="borrowAlert" class="falert hidden"></div>
+        <div class="fact"><button type="submit" class="btn btn-primary">📤 Issue Item</button><button type="button" class="btn btn-ghost" onclick="rf('borrowForm')">Clear</button></div>
+      </form>
+    </div>
+    <div class="panel">
+      <div class="ph"><h3>Currently Borrowed</h3><span class="cbadge" id="borCnt">0</span></div>
+      <div id="borList" class="feed"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ RETURN ITEMS ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-c-return" class="pg">
+  <div class="pghd"><div><h2 class="pgtitle">Return Items</h2><p class="pgsub">Process returns of borrowed consumables</p></div></div>
+  <div class="form-card" style="max-width:600px">
+    <h3 class="fct">Process Return</h3>
+    <form id="returnForm" onsubmit="doReturn(event)">
+      <div class="fg"><label>Select Borrowed Item *</label><div class="fw"><span class="fi">📦</span><select id="retItem"></select></div><span class="ferr" id="retItemE"></span></div>
+      <div class="fg"><label>Condition on Return</label><div class="fw"><span class="fi">🔍</span><select id="retCond"><option>Good</option><option>Fair</option><option>Damaged</option></select></div></div>
+      <div class="fg"><label>Notes</label><div class="fw"><span class="fi">💬</span><input id="retNotes" placeholder="Optional notes…"/></div></div>
+      <div id="returnAlert" class="falert hidden"></div>
+      <div class="fact"><button type="submit" class="btn btn-primary">📥 Process Return</button><button type="button" class="btn btn-ghost" onclick="rf('returnForm')">Clear</button></div>
+    </form>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ C-MOVEMENTS ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-c-move" class="pg">
+  <div class="pghd">
+    <div><h2 class="pgtitle">Consumables – Stock Movements</h2></div>
+    <button class="btn btn-ghost" onclick="doPrint()">🖨 Print</button>
+  </div>
+  <div class="toolbar">
+    <div class="sbox"><span>🔍</span><input id="cMvSr" placeholder="Search…" oninput="debouncedCMove()"/></div>
+    <select class="sel-sm" id="cMvF" onchange="renderCMove()"><option value="all">All</option><option value="borrow">Borrow</option><option value="return">Return</option></select>
+  </div>
+  <div class="tc"><table class="dt"><thead><tr><th>#</th><th>Date/Time</th><th>Type</th><th>Item</th><th>Qty</th><th>Person</th><th>Dept</th><th>Condition</th><th>Notes</th></tr></thead>
+  <tbody id="cMvBd"></tbody></table>
+  <div id="cMvEmp" class="estate hidden"><span>🔄</span><h4>No movements yet</h4></div></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ C-REPORTS ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-c-report" class="pg">
+  <div class="pghd"><div><h2 class="pgtitle">Consumables Reports</h2></div><button class="btn btn-ghost" onclick="doPrint()">🖨 Print</button></div>
+  <div id="cRepContent"></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ FOOD INVENTORY ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-f-inv" class="pg">
+  <div class="pghd">
+    <div><h2 class="pgtitle">Food Store Inventory</h2><p class="pgsub">Manage all food items and stock levels</p></div>
+    <button class="btn btn-primary" onclick="openFModal()">＋ Add Food Item</button>
+  </div>
+  <div class="toolbar">
+    <div class="sbox"><span>🔍</span><input id="fInvSr" placeholder="Search food items…" oninput="debouncedFInv()"/></div>
+    <div class="chips" id="fChips">
+      <button class="chip active" data-v="all" onclick="setFF('all',this)">All</button>
+      <button class="chip" data-v="Cereals" onclick="setFF('Cereals',this)">Cereals</button>
+      <button class="chip" data-v="Legumes" onclick="setFF('Legumes',this)">Legumes</button>
+      <button class="chip" data-v="Vegetables" onclick="setFF('Vegetables',this)">Vegetables</button>
+      <button class="chip" data-v="Fruits" onclick="setFF('Fruits',this)">Fruits</button>
+      <button class="chip" data-v="Dairy" onclick="setFF('Dairy',this)">Dairy</button>
+      <button class="chip" data-v="Meat & Fish" onclick="setFF('Meat & Fish',this)">Meat &amp; Fish</button>
+      <button class="chip" data-v="Cooking" onclick="setFF('Cooking',this)">Cooking</button>
+      <button class="chip" data-v="Beverages" onclick="setFF('Beverages',this)">Beverages</button>
+    </div>
+    <select class="sel-sm" id="fStF" onchange="renderFInv()">
+      <option value="all">All Status</option><option value="available">Available</option>
+      <option value="low">Low Stock</option><option value="out">Out of Stock</option><option value="expiring">Expiring Soon</option>
+    </select>
+  </div>
+  <div class="tc"><table class="dt"><thead><tr><th>#</th><th>Name</th><th>Category</th><th>Qty</th><th>Unit</th><th>Min</th><th>Unit Cost</th><th>Total Value</th><th>Expiry</th><th>Status</th><th>Location</th><th>Actions</th></tr></thead>
+  <tbody id="fInvBd"></tbody></table>
+  <div id="fInvPg" class="pagination-wrap hidden"></div>
+  <div id="fInvEmp" class="estate hidden"><span>🥫</span><h4>No food items found</h4></div></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ FOOD RECEIVING ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-f-receive" class="pg">
+  <div class="pghd">
+    <div><h2 class="pgtitle">Food Receiving</h2><p class="pgsub">Record incoming food deliveries</p></div>
+    <button class="btn btn-primary" onclick="openFRecModal()">＋ Record Delivery</button>
+  </div>
+  <div class="toolbar"><div class="sbox"><span>🔍</span><input id="fRecSr" placeholder="Search deliveries…" oninput="debouncedFRec()"/></div></div>
+  <div class="tc"><table class="dt"><thead><tr><th>#</th><th>Del. No.</th><th>Food Item</th><th>Supplier</th><th>Qty</th><th>Unit</th><th>Unit Cost</th><th>Total Cost</th><th>Date</th><th>Received By</th><th>Notes</th><th>Actions</th></tr></thead>
+  <tbody id="fRecBd"></tbody></table>
+  <div id="fRecEmp" class="estate hidden"><span>🚚</span><h4>No deliveries recorded</h4></div></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ FOOD ISSUING ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-f-issue" class="pg">
+  <div class="pghd">
+    <div><h2 class="pgtitle">Food Issuing</h2><p class="pgsub">Issue food to kitchen / refectory</p></div>
+    <button class="btn btn-primary" onclick="openFIssModal()">＋ Issue Food</button>
+  </div>
+  <div class="toolbar"><div class="sbox"><span>🔍</span><input id="fIssSr" placeholder="Search…" oninput="debouncedFIss()"/></div></div>
+  <div class="tc"><table class="dt"><thead><tr><th>#</th><th>Issue No.</th><th>Food Item</th><th>Qty</th><th>Unit</th><th>Date</th><th>Issued By</th><th>Department</th><th>Notes</th><th>Actions</th></tr></thead>
+  <tbody id="fIssBd"></tbody></table>
+  <div id="fIssEmp" class="estate hidden"><span>🍽</span><h4>No issues recorded</h4></div></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ DAILY CONSUMPTION ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-f-consume" class="pg">
+  <div class="pghd">
+    <div><h2 class="pgtitle">Daily Consumption</h2><p class="pgsub">Track food consumed per meal</p></div>
+    <button class="btn btn-primary" onclick="openConModal()">＋ Log Consumption</button>
+  </div>
+  <div class="toolbar">
+    <div class="sbox"><span>🔍</span><input id="fConSr" placeholder="Search…" oninput="debouncedCon()"/></div>
+    <select class="sel-sm" id="fConMF" onchange="renderCon()"><option value="all">All Meals</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option></select>
+  </div>
+  <div class="srow" id="conStats"></div>
+  <div class="tc"><table class="dt"><thead><tr><th>#</th><th>Date</th><th>Meal</th><th>Food Item</th><th>Qty Used</th><th>Unit</th><th>Notes</th><th>Logged By</th></tr></thead>
+  <tbody id="fConBd"></tbody></table>
+  <div id="fConEmp" class="estate hidden"><span>📅</span><h4>No consumption logged</h4></div></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ REFECTORY EQUIPMENT ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-r-equip" class="pg">
+  <div class="pghd">
+    <div><h2 class="pgtitle">Refectory Equipment</h2><p class="pgsub">Dining equipment inventory</p></div>
+    <button class="btn btn-primary" onclick="openEqModal()">＋ Add Equipment</button>
+  </div>
+  <div class="toolbar">
+    <div class="sbox"><span>🔍</span><input id="eqSr" placeholder="Search equipment…" oninput="debouncedEq()"/></div>
+    <select class="sel-sm" id="eqCF" onchange="renderEq()"><option value="all">All Conditions</option><option>Excellent</option><option>Good</option><option>Fair</option><option>Damaged</option><option>Needs Replacement</option></select>
+    <select class="sel-sm" id="eqSF" onchange="renderEq()"><option value="all">All Status</option><option>Available</option><option>In Use</option><option>Missing</option><option>Damaged</option></select>
+  </div>
+  <div class="tc"><table class="dt"><thead><tr><th>#</th><th>Name</th><th>Category</th><th>Qty</th><th>Min</th><th>Condition</th><th>Status</th><th>Unit Cost</th><th>Total Value</th><th>Location</th><th>Purchase Date</th><th>Actions</th></tr></thead>
+  <tbody id="eqBd"></tbody></table>
+  <div id="eqPg" class="pagination-wrap hidden"></div>
+  <div id="eqEmp" class="estate hidden"><span>🥄</span><h4>No equipment found</h4></div></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ LOSS & DAMAGE ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-r-damage" class="pg">
+  <div class="pghd">
+    <div><h2 class="pgtitle">Equipment Loss & Damage Register</h2><p class="pgsub">Track broken, damaged, or missing items</p></div>
+    <button class="btn btn-primary" onclick="openDamModal()">＋ Report Damage/Loss</button>
+  </div>
+  <div class="srow" id="damStats"></div>
+  <div class="toolbar">
+    <div class="sbox"><span>🔍</span><input id="damSr" placeholder="Search…" oninput="debouncedDam()"/></div>
+    <select class="sel-sm" id="damTF" onchange="renderDam()"><option value="all">All Types</option><option>Damaged</option><option>Missing</option><option>Broken</option></select>
+  </div>
+  <div class="tc"><table class="dt"><thead><tr><th>#</th><th>Report No.</th><th>Item Name</th><th>Type</th><th>Qty</th><th>Date</th><th>Reason</th><th>Reported By</th><th>Notes</th></tr></thead>
+  <tbody id="damBd"></tbody></table>
+  <div id="damEmp" class="estate hidden"><span>⚠️</span><h4>No damage reports</h4></div></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ EXPIRY MONITOR ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-f-expiry" class="pg">
+  <div class="pghd"><div><h2 class="pgtitle">Expiry Monitoring</h2><p class="pgsub">Food items approaching expiry date</p></div><button class="btn btn-ghost" onclick="doPrint()">🖨 Print</button></div>
+  <div class="srow" id="expStats"></div>
+  <div id="expContent"></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ FOOD MOVEMENTS ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-f-move" class="pg">
+  <div class="pghd"><div><h2 class="pgtitle">Food Stock Movements</h2></div><button class="btn btn-ghost" onclick="doPrint()">🖨 Print</button></div>
+  <div class="toolbar">
+    <div class="sbox"><span>🔍</span><input id="fMvSr" placeholder="Search…" oninput="debouncedFMove()"/></div>
+    <select class="sel-sm" id="fMvF" onchange="renderFMove()"><option value="all">All</option><option value="received">Received</option><option value="issued">Issued</option><option value="consumption">Consumption</option></select>
+  </div>
+  <div class="tc"><table class="dt"><thead><tr><th>#</th><th>Date/Time</th><th>Type</th><th>Item</th><th>Qty</th><th>Unit</th><th>By</th><th>Notes</th></tr></thead>
+  <tbody id="fMvBd"></tbody></table>
+  <div id="fMvEmp" class="estate hidden"><span>🔄</span><h4>No movements yet</h4></div></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ FOOD REPORTS ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-f-report" class="pg">
+  <div class="pghd"><div><h2 class="pgtitle">Food Store Reports</h2></div><button class="btn btn-ghost" onclick="doPrint()">🖨 Print Report</button></div>
+  <div id="fRepContent"></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ BREAKFAST MANAGEMENT ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-fast" class="pg">
+  <div class="pghd">
+    <div><h2 class="pgtitle">🥖 Breakfast Management</h2><p class="pgsub">Manage daily breakfast distribution — bread, cakes, and planning</p></div>
+  </div>
+
+  <!-- Breakfast Tabs -->
+  <div class="auth-tabs-bar" style="margin-bottom:18px">
+    <button class="atab active" id="bTabSettings" onclick="switchBTab('settings')">⚙ Settings</button>
+    <button class="atab" id="bTabPlan" onclick="switchBTab('plan')">📅 Daily Plan</button>
+    <button class="atab" id="bTabInventory" onclick="switchBTab('inventory')">📦 Inventory</button>
+    <button class="atab" id="bTabReports" onclick="switchBTab('reports')">📊 Reports</button>
+  </div>
+
+  <!-- SETTINGS -->
+  <div id="bSecSettings" class="form-card" style="max-width:500px">
+    <h3 class="fct">⚙ Student Breakfast Settings</h3>
+    <p class="dim" style="margin-bottom:14px;font-size:13px">Record total students and how many eat bread vs cake.</p>
+    <div id="bSettingsAlert" class="falert hidden"></div>
+    <div class="fg"><label>Total Number of Students *</label><div class="fw"><span class="fi">👥</span><input type="number" id="bTotStudents" min="0" placeholder="e.g. 500"/></div><span class="ferr" id="bTotStudentsE"></span></div>
+    <div class="fg"><label>Students who eat Bread *</label><div class="fw"><span class="fi">🍞</span><input type="number" id="bBreadStudents" min="0" placeholder="e.g. 400"/></div><span class="ferr" id="bBreadStudentsE"></span></div>
+    <div class="fg"><label>Students who eat Cake *</label><div class="fw"><span class="fi">🧁</span><input type="number" id="bCakeStudents" min="0" placeholder="e.g. 100"/></div><span class="ferr" id="bCakeStudentsE"></span></div>
+    <div class="fact"><button class="btn btn-primary" onclick="saveBSettings()">💾 Save Settings</button></div>
+  </div>
+
+  <!-- DAILY PLAN -->
+  <div id="bSecPlan" class="hidden">
+    <div class="two-col">
+      <div class="form-card">
+        <h3 class="fct">📅 New Daily Plan</h3>
+        <div id="bPlanAlert" class="falert hidden"></div>
+        <form id="bPlanForm" onsubmit="saveBPlan(event)">
+          <div class="fg"><label>Date *</label><div class="fw"><span class="fi">📅</span><input type="date" id="bPlanDate"/></div><span class="ferr" id="bPlanDateE"></span></div>
+          <div class="fg"><label>Total Students Present *</label><div class="fw"><span class="fi">👥</span><input type="number" id="bTotPresent" min="0" placeholder="e.g. 480"/></div><span class="ferr" id="bTotPresentE"></span></div>
+          <div class="fg"><label>Bread Eaters *</label><div class="fw"><span class="fi">🍞</span><input type="number" id="bBreadEaters" min="0" placeholder="e.g. 380" oninput="calcBReq()"/></div><span class="ferr" id="bBreadEatersE"></span></div>
+          <div class="fg"><label>Cake Eaters *</label><div class="fw"><span class="fi">🧁</span><input type="number" id="bCakeEaters" min="0" placeholder="e.g. 100" oninput="calcBReq()"/></div><span class="ferr" id="bCakeEatersE"></span></div>
+          <div class="fg"><label>Extra Breads (carried over)</label><div class="fw"><span class="fi">🍞</span><input type="number" id="bExtraBreads" min="0" value="0" readonly style="background:var(--cream2);color:var(--ink3)"/></div></div>
+          <div class="fg"><label>Extra Cakes (carried over)</label><div class="fw"><span class="fi">🧁</span><input type="number" id="bExtraCakes" min="0" value="0" readonly style="background:var(--cream2);color:var(--ink3)"/></div></div>
+          <div class="fg"><label>Required Breads (calc)</label><div class="fw"><span class="fi">🧮</span><input type="number" id="bReqBreads" readonly style="background:var(--cream2);color:var(--ink3);font-weight:700"/></div></div>
+          <div class="fg"><label>Required Cakes (calc)</label><div class="fw"><span class="fi">🧮</span><input type="number" id="bReqCakes" readonly style="background:var(--cream2);color:var(--ink3);font-weight:700"/></div></div>
+          <div class="fg"><label>Breads Received *</label><div class="fw"><span class="fi">🚚</span><input type="number" id="bBreadsRec" min="0" placeholder="e.g. 400"/></div><span class="ferr" id="bBreadsRecE"></span></div>
+          <div class="fg"><label>Cakes Received *</label><div class="fw"><span class="fi">🚚</span><input type="number" id="bCakesRec" min="0" placeholder="e.g. 100"/></div><span class="ferr" id="bCakesRecE"></span></div>
+          <div class="fact"><button type="submit" class="btn btn-primary">💾 Save Plan</button><button type="button" class="btn btn-ghost" onclick="rf('bPlanForm');calcBReq()">Clear</button></div>
+        </form>
+      </div>
+      <div>
+        <div class="panel" style="margin-bottom:16px">
+          <div class="ph"><h3>📋 Today's Planning</h3></div>
+          <div id="bTodayInfo" class="feed"><div class="estate" style="padding:20px"><span>📅</span><h4>No plan for today</h4></div></div>
+        </div>
+        <div class="panel">
+          <div class="ph"><h3>⚠ Alerts</h3></div>
+          <div id="bAlerts" class="feed"><div class="estate" style="padding:20px"><span>✅</span><h4>No alerts</h4></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="tc">
+      <table class="dt"><thead><tr><th>#</th><th>Date</th><th>Present</th><th>Bread Eat.</th><th>Cake Eat.</th><th>Extra Bread</th><th>Extra Cake</th><th>Req. Bread</th><th>Req. Cake</th><th>Bread Rec</th><th>Cake Rec</th><th>Bread Served</th><th>Cake Served</th><th>Rem. Bread</th><th>Rem. Cake</th><th>Actions</th></tr></thead>
+      <tbody id="bPlanBd"></tbody></table>
+      <div id="bPlanEmp" class="estate hidden"><span>📅</span><h4>No breakfast plans yet</h4></div>
+    </div>
+  </div>
+
+  <!-- INVENTORY -->
+  <div id="bSecInventory" class="hidden">
+    <div class="srow" id="bInvStats"></div>
+    <div class="tc">
+      <table class="dt"><thead><tr><th>#</th><th>Date</th><th>Breads Received</th><th>Cakes Received</th><th>Breads Served</th><th>Cakes Served</th><th>Remaining Breads</th><th>Remaining Cakes</th></tr></thead>
+      <tbody id="bInvBd"></tbody></table>
+      <div id="bInvEmp" class="estate hidden"><span>📦</span><h4>No inventory data</h4></div>
+    </div>
+  </div>
+
+  <!-- REPORTS -->
+  <div id="bSecReports" class="hidden">
+    <div class="pghd" style="margin-bottom:14px"><div></div><button class="btn btn-ghost" onclick="doPrint()">🖨 Print Report</button></div>
+    <div class="srow" id="bRepStats"></div>
+    <div class="tc" id="bRepMonthly"></div>
+    <div id="bRepEmpty" class="estate hidden"><span>📊</span><h4>No breakfast data for reports</h4></div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ AGASEKE MANAGEMENT ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-agaseke" class="pg">
+  <div class="pghd">
+    <div><h2 class="pgtitle">🍌 Agaseke Management</h2><p class="pgsub">Manage Agaseke food distribution — fermented milk, eggs, and yellow bananas</p></div>
+  </div>
+
+  <!-- Agaseke Tabs -->
+  <div class="auth-tabs-bar" style="margin-bottom:18px">
+    <button class="atab active" id="aTabSchedule" onclick="switchATab('schedule')">📅 Schedule</button>
+    <button class="atab" id="aTabPlan" onclick="switchATab('plan')">📋 Daily Plan</button>
+    <button class="atab" id="aTabInventory" onclick="switchATab('inventory')">📦 Inventory</button>
+    <button class="atab" id="aTabReports" onclick="switchATab('reports')">📊 Reports</button>
+    <button class="atab" id="aTabProducts" onclick="switchATab('products')">⚙ Products</button>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div id="aSecSchedule">
+    <div class="panel">
+      <div class="ph"><h3>📅 Weekly Agaseke Schedule</h3></div>
+      <div id="aScheduleContent" class="feed"></div>
+    </div>
+  </div>
+
+  <!-- DAILY PLAN -->
+  <div id="aSecPlan" class="hidden">
+    <div class="two-col">
+      <div class="form-card">
+        <h3 class="fct">📋 Record Daily Distribution</h3>
+        <div id="aPlanAlert" class="falert hidden"></div>
+        <form id="aPlanForm" onsubmit="saveAPlan(event)">
+          <div class="fg"><label>Date *</label><div class="fw"><span class="fi">📅</span><input type="date" id="aPlanDate"/></div><span class="ferr" id="aPlanDateE"></span></div>
+          <div class="fg"><label>Students Present *</label><div class="fw"><span class="fi">👥</span><input type="number" id="aStudents" min="0" placeholder="e.g. 450" oninput="calcAReq()"/></div><span class="ferr" id="aStudentsE"></span></div>
+          <div class="fg"><label>Item Being Served</label><div class="fw"><span class="fi">🍽</span><input type="text" id="aItemServed" readonly style="background:var(--cream2);color:var(--ink3);font-weight:700"/></div></div>
+          <div class="fg"><label>Quantity Per Student</label><div class="fw"><span class="fi">#</span><input type="number" id="aQtyPerStudent" min="0" step="0.1" value="1" oninput="calcAReq()"/></div></div>
+          <div class="fg"><label>Available Stock</label><div class="fw"><span class="fi">📦</span><input type="number" id="aAvailStock" min="0" value="0" readonly style="background:var(--cream2);color:var(--ink3)"/></div></div>
+          <div class="fg"><label>Remaining Stock (carry forward)</label><div class="fw"><span class="fi">🔄</span><input type="number" id="aRemainingStock" min="0" value="0" readonly style="background:var(--cream2);color:var(--ink3)"/></div></div>
+          <div class="fg"><label>Required Qty (calc)</label><div class="fw"><span class="fi">🧮</span><input type="number" id="aReqQty" readonly style="background:var(--cream2);color:var(--ink3);font-weight:700"/></div></div>
+          <div class="fg"><label>Net Qty Needed (calc)</label><div class="fw"><span class="fi">🧮</span><input type="number" id="aNetQty" readonly style="background:var(--cream2);color:var(--forest);font-weight:800"/></div></div>
+          <div class="fg"><label>Stock Received Today *</label><div class="fw"><span class="fi">🚚</span><input type="number" id="aStockRec" min="0" placeholder="e.g. 500" oninput="calcAReq()"/></div><span class="ferr" id="aStockRecE"></span></div>
+          <div class="fg"><label>Stock Distributed</label><div class="fw"><span class="fi">🍽</span><input type="number" id="aStockDist" min="0" value="0" oninput="calcAReq()"/></div></div>
+          <div class="fg"><label>Damaged / Wasted</label><div class="fw"><span class="fi">⚠️</span><input type="number" id="aStockDamaged" min="0" value="0"/></div></div>
+          <div class="fg"><label>Notes</label><div class="fw"><span class="fi">📝</span><input id="aNotes" placeholder="Optional notes…"/></div></div>
+          <div class="fact"><button type="submit" class="btn btn-primary">💾 Save Distribution</button><button type="button" class="btn btn-ghost" onclick="rf('aPlanForm');calcAReq()">Clear</button></div>
+        </form>
+      </div>
+      <div>
+        <div class="panel" style="margin-bottom:16px">
+          <div class="ph"><h3>📋 Today's Distribution</h3></div>
+          <div id="aTodayInfo" class="feed"><div class="estate" style="padding:20px"><span>📅</span><h4>No record for today</h4></div></div>
+        </div>
+        <div class="panel">
+          <div class="ph"><h3>⚠ Alerts</h3></div>
+          <div id="aAlerts" class="feed"><div class="estate" style="padding:20px"><span>✅</span><h4>All good</h4></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="tc">
+      <table class="dt"><thead><tr><th>#</th><th>Date</th><th>Day</th><th>Item</th><th>Students</th><th>Qty/Stu</th><th>Req. Qty</th><th>Net Needed</th><th>Stock Rec</th><th>Distributed</th><th>Damaged</th><th>Remaining</th><th>Actions</th></tr></thead>
+      <tbody id="aPlanBd"></tbody></table>
+      <div id="aPlanEmp" class="estate hidden"><span>📋</span><h4>No Agaseke records yet</h4></div>
+    </div>
+  </div>
+
+  <!-- INVENTORY -->
+  <div id="aSecInventory" class="hidden">
+    <div class="srow" id="aInvStats"></div>
+    <div class="tc">
+      <table class="dt"><thead><tr><th>Product</th><th>Total Received</th><th>Distributed</th><th>Damaged</th><th>Remaining Stock</th><th>Carry Forward</th></tr></thead>
+      <tbody id="aInvBd"></tbody></table>
+      <div id="aInvEmp" class="estate hidden"><span>📦</span><h4>No inventory data</h4></div>
+    </div>
+  </div>
+
+  <!-- REPORTS -->
+  <div id="aSecReports" class="hidden">
+    <div class="pghd" style="margin-bottom:14px"><div></div><button class="btn btn-ghost" onclick="doPrint()">🖨 Print Report</button></div>
+    <div class="srow" id="aRepStats"></div>
+    <div class="form-card" style="margin-bottom:16px">
+      <h3 class="fct">📄 Generate Report</h3>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <select class="sel-sm" id="aRepType"><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option></select>
+        <select class="sel-sm" id="aRepProduct"><option value="all">All Products</option><option value="fermented_milk">Fermented Milk</option><option value="eggs">Eggs</option><option value="yellow_bananas">Yellow Bananas</option></select>
+        <button class="btn btn-primary" onclick="renderAGeneratedReport()">📊 Generate</button>
+      </div>
+    </div>
+    <div id="aRepContent"><div class="estate"><span>📊</span><h4>Select report options and click Generate</h4></div></div>
+  </div>
+
+  <!-- PRODUCTS SETTINGS -->
+  <div id="aSecProducts" class="hidden">
+    <div class="form-card" style="max-width:600px">
+      <h3 class="fct">⚙ Product Settings</h3>
+      <p class="dim" style="font-size:13px;margin-bottom:14px">Configure default quantity per student for each Agaseke product.</p>
+      <div id="aProductsAlert" class="falert hidden"></div>
+      <div class="fg"><label>🥛 Fermented Milk — Qty per Student</label><div class="fw"><span class="fi">#</span><input type="number" id="aPMilkQty" min="0" step="0.1" value="1"/></div></div>
+      <div class="fg"><label>🥚 Eggs — Qty per Student</label><div class="fw"><span class="fi">#</span><input type="number" id="aPEggsQty" min="0" step="0.1" value="1"/></div></div>
+      <div class="fg"><label>🍌 Yellow Bananas — Qty per Student</label><div class="fw"><span class="fi">#</span><input type="number" id="aPBananaQty" min="0" step="0.1" value="2"/></div></div>
+      <div class="fact"><button class="btn btn-primary" onclick="saveAProducts()">💾 Save Product Settings</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ SUPPLIERS DIRECTORY ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-s-dir" class="pg">
+  <div class="pghd"><div><h2 class="pgtitle">Suppliers Directory</h2></div><button class="btn btn-primary" onclick="openSupModal()">＋ Add Supplier</button></div>
+  <div class="toolbar"><div class="sbox"><span>🔍</span><input id="supSr" placeholder="Search suppliers…" oninput="debouncedSup()"/></div></div>
+  <div class="tc"><table class="dt"><thead><tr><th>#</th><th>Name</th><th>Contact Person</th><th>Phone</th><th>Email</th><th>Products Supplied</th><th>Address</th><th>Notes</th><th>Actions</th></tr></thead>
+  <tbody id="supBd"></tbody></table>
+  <div id="supPg" class="pagination-wrap hidden"></div>
+  <div id="supEmp" class="estate hidden"><span>🏢</span><h4>No suppliers added</h4></div></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ SUPPLIER HISTORY ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-s-hist" class="pg">
+  <div class="pghd"><div><h2 class="pgtitle">Supplier History</h2><p class="pgsub">Delivery records grouped by supplier</p></div></div>
+  <div id="supHistContent"></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ USER ACTIVITY LOG ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-l-user" class="pg">
+  <div class="pghd"><div><h2 class="pgtitle">User Activity Log</h2></div><button class="btn btn-ghost" onclick="doPrint()">🖨 Print</button></div>
+  <div class="toolbar">
+    <div class="sbox"><span>🔍</span><input id="logSr" placeholder="Search…" oninput="debouncedLog()"/></div>
+    <select class="sel-sm" id="logCF" onchange="renderLog()"><option value="all">All Categories</option><option value="consumable">Consumable</option><option value="food">Food</option><option value="equipment">Equipment</option><option value="supplier">Supplier</option><option value="auth">Auth</option></select>
+  </div>
+  <div class="tc"><table class="dt"><thead><tr><th>#</th><th>Date/Time</th><th>User</th><th>Action</th><th>Category</th><th>Details</th></tr></thead>
+  <tbody id="logBd"></tbody></table>
+  <div id="logPg" class="pagination-wrap hidden"></div>
+  <div id="logEmp" class="estate hidden"><span>🗒</span><h4>No activity logged</h4></div></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ INVENTORY LOGS ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-l-inv" class="pg">
+  <div class="pghd"><div><h2 class="pgtitle">Inventory Activity Log</h2></div><button class="btn btn-ghost" onclick="doPrint()">🖨 Print</button></div>
+  <div id="invLogCnt"></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ AUDIT TRAIL ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-l-audit" class="pg">
+  <div class="pghd"><div><h2 class="pgtitle">Audit Trail</h2><p class="pgsub">Complete immutable record of all system actions</p></div><button class="btn btn-ghost" onclick="doPrint()">🖨 Print</button></div>
+  <div id="auditCnt"></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ STUDENT WELFARE ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-welfare" class="pg">
+  <div class="pghd">
+    <div><h2 class="pgtitle">🏥 Student Welfare Register</h2><p class="pgsub">Track student welfare status and feeding eligibility</p></div>
+    <button class="btn btn-primary" onclick="openWModal()">＋ Add Record</button>
+  </div>
+
+  <div class="toolbar">
+    <div class="sbox"><span>🔍</span><input id="wSrch" placeholder="Search student…" oninput="debouncedWelfare()"/></div>
+    <div class="chips" id="wChips">
+      <button class="chip active" data-v="all" onclick="setWF('all',this)">All</button>
+      <button class="chip" data-v="active" onclick="setWF('active',this)">Active</button>
+      <button class="chip" data-v="returned" onclick="setWF('returned',this)">Returned</button>
+    </div>
+    <select class="sel-sm" id="wStatF" onchange="renderWelfare()">
+      <option value="all">All Statuses</option>
+      <option value="Present in Dormitory">Present in Dormitory</option>
+      <option value="Present at School">Present at School</option>
+      <option value="Sick in Dormitory">Sick in Dormitory</option>
+      <option value="Sick Bay">Sick Bay</option>
+      <option value="Hospital">Hospital</option>
+      <option value="Sent Home">Sent Home</option>
+      <option value="Authorized Leave">Authorized Leave</option>
+      <option value="Suspended">Suspended</option>
+      <option value="Uniform Stolen">Uniform Stolen</option>
+      <option value="Personal Emergency">Personal Emergency</option>
+      <option value="Missing">Missing</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+
+  <!-- Summary stats -->
+  <div class="srow" id="wStats"></div>
+
+  <div class="tc">
+    <table class="dt">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Student Name</th>
+          <th>ID</th>
+          <th>Class</th>
+          <th>Dormitory</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Reason</th>
+          <th>Exp. Return</th>
+          <th>Feeding</th>
+          <th>Notes</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="wBd"></tbody>
+    </table>
+    <div id="wPg" class="pagination-wrap hidden"></div>
+    <div id="wEmp" class="estate hidden"><span>🏥</span><h4>No welfare records found</h4></div>
+  </div>
+
+  <!-- REPORTS -->
+  <div class="rep-actions"><button class="btn btn-ghost" onclick="showWelfareReport()">📊 Generate Welfare Report</button></div>
+  <div id="wRepContent"></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ NOTIFICATIONS ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-alerts" class="pg">
+  <div class="pghd"><div><h2 class="pgtitle">Notification Center</h2></div><button class="btn btn-ghost" onclick="markAllRead()">✓ Mark all read</button></div>
+  <div id="alertsCnt"></div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ SETTINGS ━━━━━━━━━━━━━━━━━━ -->
+<section id="pg-settings" class="pg">
+  <div class="pghd"><div><h2 class="pgtitle">Settings</h2><p class="pgsub">Account and system preferences</p></div></div>
+  <div class="settings-grid">
+    <div class="sc">
+      <h4>👤 Profile</h4>
+      <div class="prow">      <img src="image.png" class="pav" id="setAv" alt="School Logo" /><div><strong id="setNm">User</strong><span id="setRl" class="dim"></span></div></div>
+      <hr class="sdiv"/>
+      <div class="fg"><label>Current Password</label><div class="fw"><span class="fi">🔒</span><input type="password" id="currentPwd" placeholder="Current password"/><button type="button" class="eye" onclick="eyeT('currentPwd',this)">👁</button></div></div>
+      <div class="fg"><label>New Password</label><div class="fw"><span class="fi">🔒</span><input type="password" id="newPwd" placeholder="Min 8 chars, upper+lower+digit+special"/><button type="button" class="eye" onclick="eyeT('newPwd',this)">👁</button></div></div>
+      <button class="btn btn-primary mt" onclick="changePwd()">Update Password</button>
+    </div>
+    <div class="sc">
+      <h4>🎨 Appearance</h4>
+      <div class="pref-row">
+        <div><strong>Dark Mode</strong><p class="dim">Toggle light / dark theme</p></div>
+        <label class="tog"><input type="checkbox" id="darkSw" onchange="applyThemeSw(this)"/><span class="ttrack"><span class="tthumb"></span></span></label>
+      </div>
+    </div>
+    <div class="sc">
+      <h4>💾 Data Management</h4>
+      <div class="btn-grp mt">
+        <button class="btn btn-ghost" onclick="exportData()">📥 Export JSON</button>
+        <button class="btn btn-danger" onclick="confirmReset()">🗑 Reset All Data</button>
+      </div>
+    </div>
+    <div class="sc" id="userMgmtCard">
+      <h4>👥 User Management</h4>
+      <p class="dim" style="font-size:13px;margin-bottom:12px">Manage system users and roles (Admin only)</p>
+      <div id="userMgmtContent"><div class="estate"><span>👤</span><h4>Loading...</h4></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━ WELFARE MODAL ━━━━━━━━━━━━━━━━━━ -->
+<div id="mWelfare" class="modal">
+  <div class="modal-hd">
+    <h3 id="mWelfT">Add Welfare Record</h3>
+    <button class="mx" onclick="closeModal('mWelfare')">✕</button>
+  </div>
+  <div class="modal-bd">
+    <input type="hidden" id="mWId"/>
+    <div class="fg-grid">
+      <div class="fg">
+        <label>Student Name *</label>
+        <div class="fw"><span class="fi">👤</span><input id="mWName" placeholder="Full name"/></div>
+        <span class="ferr" id="mWNameE"></span>
+      </div>
+      <div class="fg">
+        <label>Student ID</label>
+        <div class="fw"><span class="fi">🆔</span><input id="mWIdNum" placeholder="e.g. STU-001"/></div>
+      </div>
+      <div class="fg">
+        <label>Class</label>
+        <div class="fw"><span class="fi">📚</span><input id="mWClass" placeholder="e.g. S3A"/></div>
+      </div>
+      <div class="fg">
+        <label>Dormitory</label>
+        <div class="fw"><span class="fi">🛏</span><input id="mWDorm" placeholder="e.g. St. John"/></div>
+      </div>
+      <div class="fg">
+        <label>Date *</label>
+        <div class="fw"><span class="fi">📅</span><input type="date" id="mWDate"/></div>
+        <span class="ferr" id="mWDateE"></span>
+      </div>
+      <div class="fg">
+        <label>Expected Return Date</label>
+        <div class="fw"><span class="fi">📅</span><input type="date" id="mWReturn"/></div>
+      </div>
+      <div class="fg col2">
+        <label>Status *</label>
+        <div class="fw"><span class="fi">🏷</span>
+          <select id="mWStatus">
+            <option value="Present in Dormitory">Present in Dormitory</option>
+            <option value="Present at School">Present at School</option>
+            <option value="Sick in Dormitory">Sick in Dormitory</option>
+            <option value="Sick Bay">Sick Bay</option>
+            <option value="Hospital">Hospital</option>
+            <option value="Sent Home">Sent Home</option>
+            <option value="Authorized Leave">Authorized Leave</option>
+            <option value="Suspended">Suspended</option>
+            <option value="Uniform Stolen">Uniform Stolen</option>
+            <option value="Personal Emergency">Personal Emergency</option>
+            <option value="Missing">Missing</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <span class="ferr" id="mWStatusE"></span>
+      </div>
+      <div class="fg col2">
+        <label>Reason / Details</label>
+        <div class="fw"><span class="fi">📝</span><input id="mWReason" placeholder="Reason for status"/></div>
+      </div>
+      <div class="fg col2">
+        <label>Notes</label>
+        <div class="fw"><span class="fi">📋</span><textarea id="mWNotes" rows="2" placeholder="Additional notes..." style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--cream);font-family:inherit"></textarea></div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-ft">
+    <button class="btn btn-ghost" onclick="closeModal('mWelfare')">Cancel</button>
+    <button class="btn btn-primary" onclick="saveWelfare()">💾 Save Record</button>
+  </div>
+</div>
+
+    </main><!-- /content -->
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-in">
+        <div class="footer-brand"><span class="footer-mk">M</span><div><strong>MMMS – Mubiligi Multipurpose Management System</strong><span>Inventory, Refectory, Welfare & Planning</span></div></div>
+        <div class="footer-r"><span>© 2026 MMMS</span><span class="footer-cr">Built for school excellence ♥</span></div>
+      </div>
+    </footer>
+  </div><!-- /main-w -->
+</div><!-- /appShell -->
+
+<!-- ══════════════════════════════════
+     MODALS
+══════════════════════════════════ -->
+
+<!-- Consumable Modal -->
+<div id="mCons" class="modal">
+  <div class="modal-hd"><h3 id="mConsT">Add Consumable</h3><button class="mx" onclick="closeModal('mCons')">✕</button></div>
+  <div class="modal-bd">
+    <input type="hidden" id="mCId"/>
+    <div class="fg-grid">
+      <div class="fg"><label>Name *</label><div class="fw"><span class="fi">📦</span><input id="mCName" placeholder="Item name"/></div><span class="ferr" id="mCNameE"></span></div>
+      <div class="fg"><label>Category *</label><div class="fw"><span class="fi">🏷</span><select id="mCCat"><option>Stationery</option><option>Office Supplies</option><option>Cleaning</option><option>Electrical</option><option>Laboratory</option><option>General</option></select></div></div>
+      <div class="fg"><label>Code / ID</label><div class="fw"><span class="fi">#</span><input id="mCCode" placeholder="e.g. STAT-001"/></div></div>
+      <div class="fg"><label>Quantity *</label><div class="fw"><span class="fi">🔢</span><input type="number" id="mCQty" min="0" placeholder="0"/></div><span class="ferr" id="mCQtyE"></span></div>
+      <div class="fg"><label>Min. Stock Level</label><div class="fw"><span class="fi">⬇</span><input type="number" id="mCMin" min="0" placeholder="5"/></div></div>
+      <div class="fg"><label>Unit</label><div class="fw"><span class="fi">📏</span><select id="mCUnit"><option>Piece</option><option>Ream</option><option>Box</option><option>Pack</option><option>Bottle</option><option>Litre</option><option>Kg</option><option>Set</option><option>Roll</option><option>Pair</option></select></div></div>
+      <div class="fg"><label>Location</label><div class="fw"><span class="fi">📍</span><input id="mCLoc" placeholder="e.g. Store A"/></div></div>
+      <div class="fg"><label>Description</label><div class="fw"><span class="fi">📝</span><input id="mCDesc" placeholder="Brief description"/></div></div>
+    </div>
+  </div>
+  <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('mCons')">Cancel</button><button class="btn btn-primary" onclick="saveCons()">Save Item</button></div>
+</div>
+
+<!-- Food Item Modal -->
+<div id="mFood" class="modal">
+  <div class="modal-hd"><h3 id="mFoodT">Add Food Item</h3><button class="mx" onclick="closeModal('mFood')">✕</button></div>
+  <div class="modal-bd">
+    <input type="hidden" id="mFId"/>
+    <div class="fg-grid">
+      <div class="fg"><label>Food Name *</label><div class="fw"><span class="fi">🍽</span><input id="mFName" placeholder="e.g. White Rice"/></div><span class="ferr" id="mFNameE"></span></div>
+      <div class="fg"><label>Category</label><div class="fw"><span class="fi">🏷</span><select id="mFCat"><option>Cereals</option><option>Legumes</option><option>Vegetables</option><option>Fruits</option><option>Dairy</option><option>Meat & Fish</option><option>Cooking</option><option>Beverages</option></select></div></div>
+      <div class="fg"><label>Quantity *</label><div class="fw"><span class="fi">🔢</span><input type="number" id="mFQty" min="0" placeholder="0"/></div><span class="ferr" id="mFQtyE"></span></div>
+      <div class="fg"><label>Unit</label><div class="fw"><span class="fi">📏</span><select id="mFUnit"><option>Kg</option><option>g</option><option>Litre</option><option>Piece</option><option>Bag</option><option>Crate</option><option>Box</option><option>Packet</option></select></div></div>
+      <div class="fg"><label>Min. Stock</label><div class="fw"><span class="fi">⬇</span><input type="number" id="mFMin" min="0" placeholder="10"/></div></div>
+      <div class="fg"><label>Max. Stock</label><div class="fw"><span class="fi">⬆</span><input type="number" id="mFMax" min="0" placeholder="100"/></div></div>
+      <div class="fg"><label>Unit Cost (RWF)</label><div class="fw"><span class="fi">💰</span><input type="number" id="mFCost" min="0" placeholder="0"/></div></div>
+      <div class="fg"><label>Supplier</label><div class="fw"><span class="fi">🏢</span><select id="mFSup"></select></div></div>
+      <div class="fg"><label>Purchase Date</label><div class="fw"><span class="fi">📅</span><input type="date" id="mFPurch"/></div></div>
+      <div class="fg"><label>Date Received</label><div class="fw"><span class="fi">📅</span><input type="date" id="mFRec"/></div></div>
+      <div class="fg"><label>Expiry Date</label><div class="fw"><span class="fi">⏰</span><input type="date" id="mFExp"/></div></div>
+      <div class="fg"><label>Storage Location</label><div class="fw"><span class="fi">📍</span><input id="mFLoc" placeholder="e.g. Store Room B"/></div></div>
+      <div class="fg" style="grid-column:span 2"><label>Notes</label><div class="fw"><span class="fi">📝</span><input id="mFNotes" placeholder="Optional…"/></div></div>
+    </div>
+  </div>
+  <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('mFood')">Cancel</button><button class="btn btn-primary" onclick="saveFood()">Save</button></div>
+</div>
+
+<!-- Food Receiving Modal -->
+<div id="mFRec" class="modal">
+  <div class="modal-hd"><h3>Record Food Delivery</h3><button class="mx" onclick="closeModal('mFRec')">✕</button></div>
+  <div class="modal-bd">
+    <div class="fg-grid">
+      <div class="fg"><label>Food Item *</label><div class="fw"><span class="fi">🥫</span><select id="mRFItem"></select></div><span class="ferr" id="mRFItemE"></span></div>
+      <div class="fg"><label>Supplier</label><div class="fw"><span class="fi">🏢</span><select id="mRSup"></select></div></div>
+      <div class="fg"><label>Quantity *</label><div class="fw"><span class="fi">🔢</span><input type="number" id="mRQty" min="1" placeholder="0"/></div><span class="ferr" id="mRQtyE"></span></div>
+      <div class="fg"><label>Unit Cost (RWF)</label><div class="fw"><span class="fi">💰</span><input type="number" id="mRCost" min="0" placeholder="0"/></div></div>
+      <div class="fg"><label>Delivery Date</label><div class="fw"><span class="fi">📅</span><input type="date" id="mRDate"/></div></div>
+      <div class="fg"><label>Received By</label><div class="fw"><span class="fi">👤</span><input id="mRBy" placeholder="Name…"/></div></div>
+      <div class="fg" style="grid-column:span 2"><label>Notes</label><div class="fw"><span class="fi">📝</span><input id="mRNotes" placeholder="Optional…"/></div></div>
+    </div>
+  </div>
+  <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('mFRec')">Cancel</button><button class="btn btn-primary" onclick="saveFRec()">Record Delivery</button></div>
+</div>
+
+<!-- Food Issuing Modal -->
+<div id="mFIss" class="modal">
+  <div class="modal-hd"><h3>Issue Food</h3><button class="mx" onclick="closeModal('mFIss')">✕</button></div>
+  <div class="modal-bd">
+    <div class="fg-grid">
+      <div class="fg"><label>Food Item *</label><div class="fw"><span class="fi">🍽</span><select id="mIFItem"></select></div><span class="ferr" id="mIFItemE"></span></div>
+      <div class="fg"><label>Quantity *</label><div class="fw"><span class="fi">🔢</span><input type="number" id="mIQty" min="1" placeholder="0"/></div><span class="ferr" id="mIQtyE"></span></div>
+      <div class="fg"><label>Date</label><div class="fw"><span class="fi">📅</span><input type="date" id="mIDate"/></div></div>
+      <div class="fg"><label>Issued By</label><div class="fw"><span class="fi">👤</span><input id="mIBy" placeholder="Name…"/></div></div>
+      <div class="fg"><label>Department</label><div class="fw"><span class="fi">🏫</span><select id="mIDept"><option>Kitchen</option><option>Refectory</option><option>Administration</option><option>Other</option></select></div></div>
+      <div class="fg"><label>Notes</label><div class="fw"><span class="fi">📝</span><input id="mINotes" placeholder="Optional…"/></div></div>
+    </div>
+  </div>
+  <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('mFIss')">Cancel</button><button class="btn btn-primary" onclick="saveFIss()">Issue Food</button></div>
+</div>
+
+<!-- Consumption Modal -->
+<div id="mCon" class="modal">
+  <div class="modal-hd"><h3>Log Daily Consumption</h3><button class="mx" onclick="closeModal('mCon')">✕</button></div>
+  <div class="modal-bd">
+    <div class="fg-grid">
+      <div class="fg"><label>Date</label><div class="fw"><span class="fi">📅</span><input type="date" id="mCnDate"/></div></div>
+      <div class="fg"><label>Meal Type</label><div class="fw"><span class="fi">🍽</span><select id="mCnMeal"><option>Breakfast</option><option>Lunch</option><option>Dinner</option></select></div></div>
+      <div class="fg"><label>Food Item *</label><div class="fw"><span class="fi">🥫</span><select id="mCnFood"></select></div><span class="ferr" id="mCnFoodE"></span></div>
+      <div class="fg"><label>Quantity Used *</label><div class="fw"><span class="fi">🔢</span><input type="number" id="mCnQty" min="0.1" step="0.1" placeholder="0"/></div><span class="ferr" id="mCnQtyE"></span></div>
+      <div class="fg" style="grid-column:span 2"><label>Notes</label><div class="fw"><span class="fi">📝</span><input id="mCnNotes" placeholder="Optional…"/></div></div>
+    </div>
+  </div>
+  <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('mCon')">Cancel</button><button class="btn btn-primary" onclick="saveCon()">Log Consumption</button></div>
+</div>
+
+<!-- Equipment Modal -->
+<div id="mEq" class="modal">
+  <div class="modal-hd"><h3 id="mEqT">Add Equipment</h3><button class="mx" onclick="closeModal('mEq')">✕</button></div>
+  <div class="modal-bd">
+    <input type="hidden" id="mEqId"/>
+    <div class="fg-grid">
+      <div class="fg"><label>Name *</label><div class="fw"><span class="fi">🥄</span><input id="mEqNm" placeholder="e.g. Dinner Plates"/></div><span class="ferr" id="mEqNmE"></span></div>
+      <div class="fg"><label>Category</label><div class="fw"><span class="fi">🏷</span><select id="mEqCat"><option>Plates</option><option>Cups</option><option>Cutlery</option><option>Trays</option><option>Bowls</option><option>Jugs</option><option>Serving Items</option><option>Cooking Pots</option><option>Other</option></select></div></div>
+      <div class="fg"><label>Quantity *</label><div class="fw"><span class="fi">🔢</span><input type="number" id="mEqQty" min="0" placeholder="0"/></div><span class="ferr" id="mEqQtyE"></span></div>
+      <div class="fg"><label>Min. Quantity</label><div class="fw"><span class="fi">⬇</span><input type="number" id="mEqMin" min="0" placeholder="10"/></div></div>
+      <div class="fg"><label>Unit Cost (RWF)</label><div class="fw"><span class="fi">💰</span><input type="number" id="mEqCost" min="0" placeholder="0"/></div></div>
+      <div class="fg"><label>Condition</label><div class="fw"><span class="fi">🔍</span><select id="mEqCond"><option>Excellent</option><option>Good</option><option>Fair</option><option>Damaged</option><option>Needs Replacement</option></select></div></div>
+      <div class="fg"><label>Status</label><div class="fw"><span class="fi">🔖</span><select id="mEqStat"><option>Available</option><option>In Use</option><option>Missing</option><option>Damaged</option></select></div></div>
+      <div class="fg"><label>Storage Location</label><div class="fw"><span class="fi">📍</span><input id="mEqLoc" placeholder="e.g. Refectory Store"/></div></div>
+      <div class="fg"><label>Purchase Date</label><div class="fw"><span class="fi">📅</span><input type="date" id="mEqPurch"/></div></div>
+      <div class="fg"><label>Expected Lifespan (years)</label><div class="fw"><span class="fi">📅</span><input type="number" id="mEqLife" min="0" placeholder="5"/></div></div>
+      <div class="fg" style="grid-column:span 2"><label>Notes</label><div class="fw"><span class="fi">📝</span><input id="mEqNotes" placeholder="Optional…"/></div></div>
+    </div>
+  </div>
+  <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('mEq')">Cancel</button><button class="btn btn-primary" onclick="saveEq()">Save</button></div>
+</div>
+
+<!-- Damage Modal -->
+<div id="mDam" class="modal">
+  <div class="modal-hd"><h3>Report Damage / Loss</h3><button class="mx" onclick="closeModal('mDam')">✕</button></div>
+  <div class="modal-bd">
+    <div class="fg-grid">
+      <div class="fg"><label>Item Name *</label><div class="fw"><span class="fi">📦</span><input id="mDItem" placeholder="Item name…"/></div><span class="ferr" id="mDItemE"></span></div>
+      <div class="fg"><label>Item Type</label><div class="fw"><span class="fi">🏷</span><input id="mDItemType" placeholder="e.g. Plate, Fork, Pot…"/></div></div>
+      <div class="fg"><label>Damage Type</label><div class="fw"><span class="fi">🏷</span><select id="mDType"><option>Damaged</option><option>Missing</option><option>Broken</option></select></div></div>
+      <div class="fg"><label>Quantity *</label><div class="fw"><span class="fi">🔢</span><input type="number" id="mDQty" min="1" placeholder="0"/></div><span class="ferr" id="mDQtyE"></span></div>
+      <div class="fg"><label>Date</label><div class="fw"><span class="fi">📅</span><input type="date" id="mDDate"/></div></div>
+      <div class="fg"><label>Reported By</label><div class="fw"><span class="fi">👤</span><input id="mDBy" placeholder="Name…"/></div></div>
+      <div class="fg"><label>Reason</label><div class="fw"><span class="fi">💬</span><input id="mDReason" placeholder="Reason for damage/loss…"/></div></div>
+      <div class="fg" style="grid-column:span 2"><label>Notes</label><div class="fw"><span class="fi">📝</span><input id="mDNotes" placeholder="Optional…"/></div></div>
+    </div>
+  </div>
+  <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('mDam')">Cancel</button><button class="btn btn-danger" onclick="saveDam()">Submit Report</button></div>
+</div>
+
+<!-- Supplier Modal -->
+<div id="mSup" class="modal">
+  <div class="modal-hd"><h3 id="mSupT">Add Supplier</h3><button class="mx" onclick="closeModal('mSup')">✕</button></div>
+  <div class="modal-bd">
+    <input type="hidden" id="mSupId"/>
+    <div class="fg-grid">
+      <div class="fg"><label>Supplier Name *</label><div class="fw"><span class="fi">🏢</span><input id="mSNm" placeholder="Company / person name"/></div><span class="ferr" id="mSNmE"></span></div>
+      <div class="fg"><label>Contact Person</label><div class="fw"><span class="fi">👤</span><input id="mSCon" placeholder="Full name"/></div></div>
+      <div class="fg"><label>Phone</label><div class="fw"><span class="fi">📞</span><input id="mSPh" placeholder="+250…"/></div></div>
+      <div class="fg"><label>Email</label><div class="fw"><span class="fi">✉</span><input id="mSEm" placeholder="email@example.com"/></div></div>
+      <div class="fg"><label>Products Supplied</label><div class="fw"><span class="fi">📦</span><input id="mSProd" placeholder="e.g. Cereals, Vegetables…"/></div></div>
+      <div class="fg"><label>Address</label><div class="fw"><span class="fi">📍</span><input id="mSAddr" placeholder="Address…"/></div></div>
+      <div class="fg" style="grid-column:span 2"><label>Notes</label><div class="fw"><span class="fi">📝</span><input id="mSNotes" placeholder="Optional…"/></div></div>
+    </div>
+  </div>
+  <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('mSup')">Cancel</button><button class="btn btn-primary" onclick="saveSup()">Save Supplier</button></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
